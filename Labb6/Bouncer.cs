@@ -14,18 +14,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Threading;
+using System.Collections.Concurrent;
 
 
 //Inkastaren släpper in kunder slumpvis, efter tre till tio sekunder. Inkastaren kontrollerar leg, så att alla i baren kan veta vad kunden heter. (Slumpa ett namn åt nya kunder från en lista) Inkastaren slutar släppa in nya kunder när baren stänger och går hem direkt.
 
 namespace Labb6
 {
-    public class Bouncer : MainWindow
+    public class Bouncer : MainWindow // ta bort arvet när delegate är fixat.
     {
-        public void GuestList()
+       //Skapa delegate här?
+
+        public void CreateGuest()
         {
-            Task.Run(() =>
-            {
 
             List<string> guests = new List<string>();
             guests.Add("Karl");
@@ -49,11 +50,16 @@ namespace Labb6
             guests.Add("Erika");
             guests.Add("Jaqueline");
 
-            Random r = new Random();
-            int randomPosition = r.Next(guests.Count);
-            string currrentName = guests[randomPosition];
+            Random rTime = new Random();
+            int randomTimePosition = rTime.Next(3, 10) * 1000;
+            Thread.Sleep(randomTimePosition);
+            Random rGuest = new Random();
+            int randomGuestPosition = rGuest.Next(guests.Count);
+            string randomName = guests[randomGuestPosition];
 
-            });
+            BouncerListBox.Items.Add(new Bouncer { Name = randomName });
         }
+
+
     }
 }

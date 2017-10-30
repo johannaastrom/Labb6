@@ -20,9 +20,33 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
+        Bouncer b = new Bouncer();
+
+        bool isBarOpen = false;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            BouncerListBox.DisplayMemberPath = "name";
+
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            isBarOpen = false;
+        }
+
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            isBarOpen = true;
+            if (isBarOpen == true)
+            {
+                var instance = new Bouncer();
+                instance.CreateGuest();
+
+            }
+
         }
     }
 

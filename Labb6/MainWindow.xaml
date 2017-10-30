@@ -6,27 +6,29 @@
         xmlns:local="clr-namespace:Labb6"
         mc:Ignorable="d"
         Title="MainWindow" Height="384.919" Width="1056.903">
-    <Grid>
+    <Grid x:Name="Close">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="1"/>
                 <GradientStop Color="#FFC2EECF"/>
-                <GradientStop Color="#FF4BB44B" Offset="0.981"/>
+                <GradientStop Color="#FFF0F7F0" Offset="0.981"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="171" Margin="41,92,0,0" VerticalAlignment="Top" Width="172"/>
-        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="171" Margin="250,92,0,0" VerticalAlignment="Top" Width="179"/>
-        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="171" Margin="462,92,0,0" VerticalAlignment="Top" Width="167"/>
-        <Label x:Name="BartenderLabel" Content="Bartender" HorizontalAlignment="Left" Margin="41,52,0,0" VerticalAlignment="Top" Width="100"/>
-        <Label x:Name="WaiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top" Width="100"/>
-        <Label x:Name="BouncerLabel" Content="Bouncer" HorizontalAlignment="Left" Margin="462,52,0,0" VerticalAlignment="Top" Width="100"/>
+        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="171" Margin="41,92,0,0" VerticalAlignment="Top" Width="170"/>
+        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="171" Margin="250,92,0,0" VerticalAlignment="Top" Width="170"/>
+        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="171" Margin="462,92,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label x:Name="BartenderLabel" Content="Bartender actions" HorizontalAlignment="Left" Margin="41,52,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label x:Name="BouncerLabel" Content="Bouncer actions" HorizontalAlignment="Left" Margin="462,52,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="676,114,0,0" VerticalAlignment="Top" Width="339"/>
         <Label x:Name="NumberOfGlasses" Content="Number of glasses" HorizontalAlignment="Left" Margin="676,162,0,0" VerticalAlignment="Top" Width="339"/>
         <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="676,209,0,0" VerticalAlignment="Top" Width="339"/>
-        <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="41,293,0,0" VerticalAlignment="Top" Width="172"/>
-        <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="179"/>
-        <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="462,293,0,0" VerticalAlignment="Top" Width="167"/>
-        <Button x:Name="OpenCloseButton" Content="Open/Close Bar" HorizontalAlignment="Left" Margin="41,19,0,0" VerticalAlignment="Top" Width="588" Height="28" Background="#FFDDDDDD"/>
+        <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="41,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
+        <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
+        <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="462,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
+        <Button x:Name="OpenButton" Content="Open Bar" HorizontalAlignment="Left" Margin="41,19,0,0" VerticalAlignment="Top" Width="263" Height="28" Background="#FF57DA25" Click="OpenButton_Click"/>
+        <Button x:Name="StopButton" Content="STOP THREADS!" HorizontalAlignment="Left" Margin="676,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFE51212" BorderBrush="#FFEE1616" FontWeight="Bold"/>
+        <Button x:Name="CloseButton" Content="Close Bar" HorizontalAlignment="Left" Margin="362,19,0,0" VerticalAlignment="Top" Width="270" Height="28" Click="CloseButton_Click"/>
 
     </Grid>
 </Window>
