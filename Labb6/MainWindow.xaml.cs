@@ -25,8 +25,11 @@ namespace Labb6
 
         private void printBouncerInfo(string bInfo)
         {
-
+            Dispatcher.Invoke(() =>
+            {
                 BouncerListBox.Items.Insert(0, bInfo);
+            });
+                
         }
 
         public MainWindow()
