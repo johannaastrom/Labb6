@@ -24,10 +24,19 @@ namespace Labb6
     public partial class MainWindow : Window
     {
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
-
         bool isBarOpen = false;
-        CancellationTokenSource cts = new CancellationTokenSource();
         int numberofGuests;
+        private Queue<Glass> shelf = new Queue<Glass>();
+
+        public void PlaceGlassOnShelf(Glass cleanGlass)
+        {
+            shelf.Enqueue(cleanGlass);
+        }
+        public Glass GetGlassFromShelf()
+        {
+            return shelf.Dequeue();
+            
+        }
 
         public MainWindow()
         {
@@ -41,19 +50,13 @@ namespace Labb6
                 BouncerListBox.Items.Insert(0, bInfo);
             });
 
-            if(!isBarOpen)
+            if (!isBarOpen)
             {
                 Dispatcher.Invoke(() =>
                 {
                     BouncerListBox.Items.Insert(0, "Bouncern går hem");
                 });
             }
-                
-        }
-
-        public MainWindow()
-        {
-            InitializeComponent();
 
         }
 
@@ -78,8 +81,12 @@ namespace Labb6
                 Bouncer b = new Bouncer();
                 Task.Run(() =>
                {
-                   while (isBarOpen) {
+                   while (isBarOpen)
+                   {
                        b.CreateGuest(printBouncerInfo);
+                       Queue<Bouncer> guestList = new Queue<Bouncer>();
+                       guestList.Enqueue();
+
                        Dispatcher.Invoke(() =>
                        {
                            NumberOfGuests.Content = "Number of guests: " + ++numberofGuests;
@@ -90,14 +97,13 @@ namespace Labb6
                        }
                    }
                });
-
-
-
             }
+        }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            cts.Cancel();
+            Environment.Exit(Environment.ExitCode);
         }
     }
 }
+

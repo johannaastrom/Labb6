@@ -10,5 +10,6 @@ namespace Labb6
     {
         public string glass = "glass";
         public bool isGlassEmpty { get; set; }
+        public bool isGlassClean { get; set; }
     }
 }
