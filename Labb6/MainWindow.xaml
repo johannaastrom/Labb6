@@ -14,15 +14,15 @@
                 <GradientStop Color="#FFF0F7F0" Offset="0.981"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="171" Margin="41,92,0,0" VerticalAlignment="Top" Width="170"/>
-        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="171" Margin="250,92,0,0" VerticalAlignment="Top" Width="170"/>
-        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="171" Margin="462,92,0,0" VerticalAlignment="Top" Width="170"/>
+        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="171" Margin="16,92,0,0" VerticalAlignment="Top" Width="208"/>
+        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="171" Margin="241,92,0,0" VerticalAlignment="Top" Width="207"/>
+        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="171" Margin="462,92,0,0" VerticalAlignment="Top" Width="214"/>
         <Label x:Name="BartenderLabel" Content="Bartender actions" HorizontalAlignment="Left" Margin="41,52,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="BouncerLabel" Content="Bouncer actions" HorizontalAlignment="Left" Margin="462,52,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="676,114,0,0" VerticalAlignment="Top" Width="339"/>
-        <Label x:Name="NumberOfGlasses" Content="Number of glasses" HorizontalAlignment="Left" Margin="676,162,0,0" VerticalAlignment="Top" Width="339"/>
-        <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="676,209,0,0" VerticalAlignment="Top" Width="339"/>
+        <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="729,108,-17.6,0" VerticalAlignment="Top" Width="339"/>
+        <Label x:Name="NumberOfGlasses" Content="Number of glasses" HorizontalAlignment="Left" Margin="729,139,-17.6,0" VerticalAlignment="Top" Width="339"/>
+        <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="729,181,-17.6,0" VerticalAlignment="Top" Width="339"/>
         <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="41,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="462,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
