@@ -61,7 +61,7 @@ namespace Labb6
                 Bouncer b = new Bouncer();
                 Task.Run(() =>
                 {
-                    while (isBarOpen)
+                    while (isBarOpen) 
                     {
                         b.CreateGuest(printBouncerInfo);
                         if (isBarOpen)
