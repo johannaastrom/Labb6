@@ -27,7 +27,7 @@
         <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="462,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="OpenButton" Content="Open Bar" HorizontalAlignment="Left" Margin="41,19,0,0" VerticalAlignment="Top" Width="263" Height="28" Background="#FF57DA25" Click="OpenButton_Click"/>
-        <Button x:Name="StopButton" Content="STOP THREADS!" HorizontalAlignment="Left" Margin="676,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFE51212" BorderBrush="#FFEE1616" FontWeight="Bold"/>
+        <Button x:Name="StopButton" Content="STOP THREADS!" HorizontalAlignment="Left" Margin="676,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFE51212" BorderBrush="#FFEE1616" FontWeight="Bold" Click="StopButton_Click"/>
         <Button x:Name="CloseButton" Content="Close Bar" HorizontalAlignment="Left" Margin="362,19,0,0" VerticalAlignment="Top" Width="270" Height="28" Click="CloseButton_Click"/>
 
     </Grid>
