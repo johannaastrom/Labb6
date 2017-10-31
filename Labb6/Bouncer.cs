@@ -67,7 +67,7 @@ namespace Labb6
             var patron = new Patron();
             patron.Name = randomName;
 
-            callback($"Bouncern släpper in {patron.Name} i baren.");
+            callback($"Bouncern lets {patron.Name} into the bar.");
             
         }
     }
