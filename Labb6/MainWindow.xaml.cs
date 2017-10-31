@@ -27,24 +27,23 @@ namespace Labb6
 
         bool isBarOpen = false;
 
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
         private void printBouncerInfo(string bInfo)
         {
             Dispatcher.Invoke(() =>
             {
                 BouncerListBox.Items.Insert(0, bInfo);
             });
-
-        }
-
-        public MainWindow()
-        {
-            InitializeComponent();
-
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
+            OpenButton.IsEnabled = true;
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -53,25 +52,25 @@ namespace Labb6
             {
                 cts = new CancellationTokenSource();
             }
-
             CancellationToken ct = cts.Token;
 
-            //Task.Run(() =>
-            //{
-            //    while (!ct.IsCancellationRequested)
-            //    {
-                    isBarOpen = true;
-                    if (isBarOpen == true)
+            OpenButton.IsEnabled = false;
+            isBarOpen = true;
+            if (isBarOpen == true)
+            {
+                Bouncer b = new Bouncer();
+                Task.Run(() =>
+                {
+                    while (isBarOpen)
                     {
-                        Bouncer b = new Bouncer();
-                        Task.Run(() =>
+                        b.CreateGuest(printBouncerInfo);
+                        if (isBarOpen)
                         {
-                            while (isBarOpen)
-                                b.CreateGuest(printBouncerInfo);
-                        });
+                            cts.Cancel();
+                        }
                     }
-            //    }
-            //});
+                });
+            }
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -79,5 +78,4 @@ namespace Labb6
             cts.Cancel();
         }
     }
-
 }
