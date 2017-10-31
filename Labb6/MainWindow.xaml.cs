@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Labb6
 {
@@ -22,6 +23,7 @@ namespace Labb6
     public partial class MainWindow : Window
     {
         bool isBarOpen = false;
+        CancellationTokenSource cts = new CancellationTokenSource();
 
         private void printBouncerInfo(string bInfo)
         {
@@ -45,16 +47,20 @@ namespace Labb6
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
+            OpenButton.IsEnabled = false;
             isBarOpen = true;
             if (isBarOpen == true)
             {
-                //var instance = new Bouncer();
-                //instance.CreateGuest();
                 Bouncer b = new Bouncer();
                 Task.Run(() =>
                {
-                   while (isBarOpen)
+                   while (isBarOpen) {
                        b.CreateGuest(printBouncerInfo);
+                       if (!isBarOpen)
+                       {
+                           cts.Cancel();
+                       }
+                   }
                });
 
 
