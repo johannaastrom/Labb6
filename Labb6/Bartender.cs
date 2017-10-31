@@ -13,5 +13,6 @@ namespace Labb6
 {
     public class Bartender
     {
+        Glass newGlass = new Glass();
     }
 }

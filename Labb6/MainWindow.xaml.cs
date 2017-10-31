@@ -26,6 +26,7 @@ namespace Labb6
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
 
         bool isBarOpen = false;
+        int numberOfGuests;
 
         public MainWindow()
         {
@@ -38,6 +39,14 @@ namespace Labb6
             {
                 BouncerListBox.Items.Insert(0, bInfo);
             });
+
+            if(!isBarOpen)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    BouncerListBox.Items.Insert(0, "Bouncer goes home.");
+                });
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -64,6 +73,10 @@ namespace Labb6
                     while (isBarOpen)
                     {
                         b.CreateGuest(printBouncerInfo);
+                        Dispatcher.Invoke(() =>
+                        {
+                            NumberOfGuests.Content = "Number of guests: " + ++numberOfGuests;
+                        });
                         if (isBarOpen)
                         {
                             cts.Cancel();
