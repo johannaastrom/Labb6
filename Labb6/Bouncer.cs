@@ -21,13 +21,10 @@ using System.Collections.Concurrent;
 
 namespace Labb6
 {
-    public class Bouncer : MainWindow // ta bort arvet när delegate är fixat.
+    public class Bouncer
     {
-       //Skapa delegate här?
-
-        public void CreateGuest()
+        public void CreateGuest(Action <string> callback)
         {
-
             List<string> guests = new List<string>();
             guests.Add("Karl");
             guests.Add("Kim");
@@ -49,6 +46,16 @@ namespace Labb6
             guests.Add("Gustav");
             guests.Add("Erika");
             guests.Add("Jaqueline");
+            guests.Add("TörstigaTina");
+            guests.Add("HalstorreHans");
+            guests.Add("ÖlsugneÖrjan");
+            guests.Add("Charlie");
+            guests.Add("Robin");
+            guests.Add("Sam");
+            guests.Add("Johanna");
+            guests.Add("Andreas");
+            guests.Add("David");
+            guests.Add("Johan");
 
             Random rTime = new Random();
             int randomTimePosition = rTime.Next(3, 10) * 1000;
@@ -57,9 +64,10 @@ namespace Labb6
             int randomGuestPosition = rGuest.Next(guests.Count);
             string randomName = guests[randomGuestPosition];
 
-            BouncerListBox.Items.Add(new Bouncer { Name = randomName });
+            var patron = new Patron();
+            patron.Name = randomName;
+
+            callback($"Bouncern släpper in {patron.Name} i baren.");
         }
-
-
     }
 }

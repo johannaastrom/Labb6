@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace Labb6
 {
@@ -20,8 +21,6 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
-        Bouncer b = new Bouncer();
-
         bool isBarOpen = false;
 
         public MainWindow()
@@ -29,7 +28,6 @@ namespace Labb6
             InitializeComponent();
 
             BouncerListBox.DisplayMemberPath = "name";
-
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -44,7 +42,7 @@ namespace Labb6
             {
                 var instance = new Bouncer();
                 instance.CreateGuest();
-
+                
             }
 
         }
