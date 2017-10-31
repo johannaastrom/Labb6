@@ -23,11 +23,16 @@ namespace Labb6
     {
         bool isBarOpen = false;
 
+        private void printBouncerInfo(string bInfo)
+        {
+
+                BouncerListBox.Items.Insert(0, bInfo);
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            BouncerListBox.DisplayMemberPath = "name";
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -40,9 +45,17 @@ namespace Labb6
             isBarOpen = true;
             if (isBarOpen == true)
             {
-                var instance = new Bouncer();
-                instance.CreateGuest();
-                
+                //var instance = new Bouncer();
+                //instance.CreateGuest();
+                Bouncer b = new Bouncer();
+                Task.Run(() =>
+               {
+                   while (isBarOpen)
+                       b.CreateGuest(printBouncerInfo);
+               });
+
+
+
             }
 
         }

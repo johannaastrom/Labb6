@@ -68,6 +68,7 @@ namespace Labb6
             patron.Name = randomName;
 
             callback($"Bouncern släpper in {patron.Name} i baren.");
+            
         }
     }
 }
