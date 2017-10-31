@@ -24,6 +24,7 @@ namespace Labb6
     {
         bool isBarOpen = false;
         CancellationTokenSource cts = new CancellationTokenSource();
+        int numberofGuests;
 
         private void printBouncerInfo(string bInfo)
         {
@@ -31,6 +32,14 @@ namespace Labb6
             {
                 BouncerListBox.Items.Insert(0, bInfo);
             });
+
+            if(!isBarOpen)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    BouncerListBox.Items.Insert(0, "Bouncern går hem");
+                });
+            }
                 
         }
 
@@ -43,6 +52,7 @@ namespace Labb6
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
+            OpenButton.IsEnabled = true;
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -56,6 +66,10 @@ namespace Labb6
                {
                    while (isBarOpen) {
                        b.CreateGuest(printBouncerInfo);
+                       Dispatcher.Invoke(() =>
+                       {
+                           NumberOfGuests.Content = "Number of guests: " + ++numberofGuests;
+                       });
                        if (!isBarOpen)
                        {
                            cts.Cancel();
