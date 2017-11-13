@@ -31,16 +31,6 @@ namespace Labb6
         private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
         public BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
 
-        public void GoToBarQueue(Patron newPatron)
-        {
-            barQueue.Add(newPatron);
-        }
-
-        public void GotBeer()
-        {
-            Patron p = barQueue.Take();
-        }
-
         public void PlaceGlassOnShelf(Glass cleanGlass)
         {
             shelf.Add(cleanGlass);
@@ -76,7 +66,6 @@ namespace Labb6
                     BouncerListBox.Items.Insert(0, "Bouncer goes home");
                 });
             }
-
         }
 
         private void printBartenderInfo(string barInfo)

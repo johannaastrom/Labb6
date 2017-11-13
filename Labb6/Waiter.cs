@@ -12,5 +12,10 @@ namespace Labb6
 {
     public class Waiter
     {
+        private System.Collections.Concurrent.BlockingCollection<Glass> Haj;
+        public Waiter(System.Collections.Concurrent.BlockingCollection<Glass> haj)
+        {
+            this.Haj = haj;
+        }
     }
 }
