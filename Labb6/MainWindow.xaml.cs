@@ -28,6 +28,7 @@ namespace Labb6
         bool isBarOpen = false;
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
+        int numberofGlasses = 20;
         private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
         public BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
 
@@ -103,29 +104,36 @@ namespace Labb6
                 Bouncer b = new Bouncer(barQueue);
                 Bartender Bar = new Bartender(barQueue);
                 Task.Run(() =>
-               {
-                   while (isBarOpen)
-                   {
-                       b.Work(printBouncerInfo);
-                       Bar.PourBeer(GetGlassFromShelf);
+                {
+                    while (isBarOpen)
+                    {
+                        b.Work(printBouncerInfo);
 
-                       Dispatcher.Invoke(() =>
-                       {
-                           NumberOfGuests.Content = "Number of guests: " + ++numberofGuests;
-                       });
-                       if (!isBarOpen)
-                       {
-                           cts.Cancel();
-                       }
-                   }
-               });
-            }
-        }
+                        Bar.PourBeer(printBartenderInfo);
 
-        private void StopButton_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(Environment.ExitCode);
-        }
+                        Dispatcher.Invoke(() =>
+                        {
+                            NumberOfGuests.Content = "Number of guests: " + ++numberofGuests;
+                        });
+
+                        //Dispatcher.Invoke(() =>
+                        //{
+                        //    NumberOfGlasses.Content = "Number of empty glasses: " + --numberofGlasses;
+                        //});
+
+                        if (!isBarOpen)
+                        {
+                            cts.Cancel();
+                        }
+                    }
+                });
+            }  
+    }
+
+    private void StopButton_Click(object sender, RoutedEventArgs e)
+    {
+        Environment.Exit(Environment.ExitCode);
     }
 }
+    }
 

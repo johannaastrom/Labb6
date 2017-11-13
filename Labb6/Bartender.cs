@@ -16,24 +16,29 @@ namespace Labb6
     public class Bartender
     {
         private BlockingCollection<Patron> barQueue;
-        private BlockingCollection<Glass> Halla;
+        private BlockingCollection<Glass> GlassQueue;
+
         public Bartender(BlockingCollection<Patron> barqueue)
         {
             this.barQueue = barqueue;
         }
-        public Bartender(BlockingCollection<Glass> halla)
+        public Bartender(BlockingCollection<Glass> glassqueue)
         {
-            this.Halla = halla;
+            this.GlassQueue = glassqueue;
         }
 
-        int numberofGlasses = 20;
-        Glass newGlass = new Glass();
+        //int numberofGlasses = 20;
+        //Glass newGlass = new Glass();
 
         public void PourBeer(Action <string> callback)
-        {
-            //skapa en delegate för att kunna använda GetGlassFromShelf från main
-            callback("Pours a beer");
-            //barQueue.Take();
+        { 
+            while(true)
+            {
+                callback("Pours a beer");
+                barQueue.Take();
+                GlassQueue.Take();
+                
+            }
 
             #region gammal kod
             //Queue<Glass> glassQueue = new Queue<Glass>();

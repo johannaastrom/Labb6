@@ -32,13 +32,13 @@ namespace Labb6
         public Patron CreateGuest() //Creates guests by random time and name from list
         {
             List<string> guestList = new List<string>();
-            guestList.Add("Karl");
-            guestList.Add("Kim");
-            guestList.Add("Alex");
-            guestList.Add("Charlie");
-            guestList.Add("Robin");
-            guestList.Add("Sam");
-            guestList.Add("Johanna");
+            guestList.Add("KulmageKarl");
+            guestList.Add("GråtfärdigeGreta");
+            guestList.Add("KarateKarin");
+            guestList.Add("HelikopterHerbert");
+            guestList.Add("RundaRobin");
+            guestList.Add("Samuel Adams");
+            guestList.Add("NyktreNiklas");
             guestList.Add("Andreas");
             guestList.Add("David");
             guestList.Add("Johan");
@@ -46,8 +46,8 @@ namespace Labb6
             guestList.Add("Erik");
             guestList.Add("Elin");
             guestList.Add("Molly");
-            guestList.Add("Patrik");
-            guestList.Add("Victoria");
+            guestList.Add("PackadePatrik");
+            guestList.Add("VingligaVictoria");
             guestList.Add("Isabella");
             guestList.Add("Gustav");
             guestList.Add("Erika");
@@ -83,6 +83,7 @@ namespace Labb6
                 int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);
             }
+            
         }
     }
 }
