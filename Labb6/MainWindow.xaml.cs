@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Labb6
 {
@@ -26,16 +27,17 @@ namespace Labb6
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
         bool isBarOpen = false;
         int numberofGuests;
-        private Queue<Glass> shelf = new Queue<Glass>();
+        private ConcurrentQueue<Glass> shelf = new ConcurrentQueue<Glass>();
 
         public void PlaceGlassOnShelf(Glass cleanGlass)
         {
             shelf.Enqueue(cleanGlass);
         }
-        public Glass GetGlassFromShelf()
+        public Glass GetGlassFromShelf(/*delegate*/)
         {
-            return shelf.Dequeue();
-            
+            string item;
+            return shelf.TryDequeue();
+
         }
 
         public MainWindow()
@@ -74,8 +76,8 @@ namespace Labb6
             }
             CancellationToken ct = cts.Token;
 
-            OpenButton.IsEnabled = false;
-            isBarOpen = true;
+            OpenButton.IsEnabled = false;      
+            isBarOpen = true;                //Baren öppnas
             if (isBarOpen == true)
             {
                 Bouncer b = new Bouncer();
@@ -84,8 +86,8 @@ namespace Labb6
                    while (isBarOpen)
                    {
                        b.CreateGuest(printBouncerInfo);
-                       Queue<Bouncer> guestList = new Queue<Bouncer>();
-                       guestList.Enqueue();
+                       //Queue<Bouncer> guestList = new Queue<Bouncer>();
+                       //guestList.Enqueue();
 
                        Dispatcher.Invoke(() =>
                        {

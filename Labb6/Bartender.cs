@@ -18,7 +18,7 @@ namespace Labb6
         Glass newGlass = new Glass();
         public void PourBeer(Action <string> callback)
         {
-           #region gammal kod
+            #region gammal kod
             //Queue<Glass> glassQueue = new Queue<Glass>();
             //for (int i = 0; i < numberofGlasses; i++)
             //{
@@ -39,8 +39,10 @@ namespace Labb6
             //}
             #endregion
 
+            //skapa en delegate för att kunna använda GetGlassFromShelf från main
+
         }
-        
+
 
     }
 }

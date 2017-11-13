@@ -21,7 +21,7 @@
         <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="BouncerLabel" Content="Bouncer actions" HorizontalAlignment="Left" Margin="462,52,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="729,108,-17.6,0" VerticalAlignment="Top" Width="339"/>
-        <Label x:Name="NumberOfGlasses" Content="Number of glasses" HorizontalAlignment="Left" Margin="729,139,-17.6,0" VerticalAlignment="Top" Width="339"/>
+        <Label x:Name="NumberOfGlasses" Content="Number of empty glasses" HorizontalAlignment="Left" Margin="729,139,-17.6,0" VerticalAlignment="Top" Width="339"/>
         <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="729,181,-17.6,0" VerticalAlignment="Top" Width="339"/>
         <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="41,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
