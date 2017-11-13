@@ -28,20 +28,31 @@ namespace Labb6
         bool isBarOpen = false;
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
-        private ConcurrentQueue<Glass> shelf = new ConcurrentQueue<Glass>();
+        private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
+        public BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
+
+        public void GoToBarQueue(Patron newPatron)
+        {
+            barQueue.Add(newPatron);
+        }
+
+        public void GotBeer()
+        {
+            Patron p = barQueue.Take();
+        }
 
         public void PlaceGlassOnShelf(Glass cleanGlass)
         {
-            shelf.Enqueue(cleanGlass);
+            shelf.Add(cleanGlass);
         }
         private void GetGlassFromShelf(string takeGlass)
         {
-            while (!shelf.TryDequeue(out Glass result))
+            while (!shelf.TryTake(out Glass result))
             { }
 
             Dispatcher.Invoke(() =>
             {
-                BartenderListBox.Items.Insert(0, "Pours a beer");
+                BartenderListBox.Items.Insert(0, "pours a beer.");
             });
 
         }
@@ -62,7 +73,7 @@ namespace Labb6
             {
                 Dispatcher.Invoke(() =>
                 {
-                    BouncerListBox.Items.Insert(0, "Bouncern goes home");
+                    BouncerListBox.Items.Insert(0, "Bouncer goes home");
                 });
             }
 
@@ -77,7 +88,7 @@ namespace Labb6
 
             if (!isBarOpen /*och när gästerna har gått*/)
             {
-                BartenderListBox.Items.Insert(0, "Bartendern goes home");
+                BartenderListBox.Items.Insert(0, "Bartender goes home");
             }
         }
 
@@ -100,16 +111,14 @@ namespace Labb6
             stillGuestsInBar = true; //Det finns gäster i baren
             if (isBarOpen == true)
             {
-                Bouncer b = new Bouncer();
-                Bartender Bar = new Bartender();
+                Bouncer b = new Bouncer(barQueue);
+                Bartender Bar = new Bartender(barQueue);
                 Task.Run(() =>
                {
                    while (isBarOpen)
                    {
-                       b.CreateGuest(printBouncerInfo);
+                       b.Work(printBouncerInfo);
                        Bar.PourBeer(GetGlassFromShelf);
-                       //Queue<Bouncer> guestList = new Queue<Bouncer>();
-                       //guestList.Enqueue();
 
                        Dispatcher.Invoke(() =>
                        {

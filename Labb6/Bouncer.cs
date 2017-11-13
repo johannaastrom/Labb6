@@ -23,7 +23,13 @@ namespace Labb6
 {
     public class Bouncer
     {
-        public void CreateGuest(Action <string> callback)
+        private BlockingCollection<Patron> barQueue;
+        public Bouncer(BlockingCollection<Patron> barqueue)
+        {
+            this.barQueue = barqueue;
+        }
+
+        public Patron CreateGuest() //Creates guests by random time and name from list
         {
             List<string> guestList = new List<string>();
             guestList.Add("Karl");
@@ -57,9 +63,6 @@ namespace Labb6
             guestList.Add("David");
             guestList.Add("Johan");
 
-            Random rTime = new Random();
-            int randomTimePosition = rTime.Next(3, 10) * 1000;
-            Thread.Sleep(randomTimePosition);
             Random rGuest = new Random();
             int randomGuestPosition = rGuest.Next(guestList.Count);
             string randomName = guestList[randomGuestPosition];
@@ -67,12 +70,21 @@ namespace Labb6
             var patron = new Patron();
             patron.Name = randomName;
 
-            callback($"Bouncern lets {patron.Name} into the bar.");
-            
+            return patron;
         }
-        public void Work()
+        public void Work(Action<string> callback) //create a guest
         {
+            Random rTime = new Random();
+            while (true)
+            {
+                Patron p = CreateGuest();
+                int randomTimePosition = rTime.Next(3, 10) * 1000;
+                Thread.Sleep(randomTimePosition);
+                barQueue.Add(p);
 
+                
+                callback($"Bouncern lets {p.Name} into the bar.");
+            }
         }
     }
 }

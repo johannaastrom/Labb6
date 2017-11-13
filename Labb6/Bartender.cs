@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Concurrent;
 
 //Bartender-tråden ska vänta i baren tills en kund dyker upp. Så fort kunden kommer till baren går bartendern till hyllan och plockar ett glas. Om det inte finns något glas i hyllan så väntar bartendern tills det kommer tillbaka ett glas. Sedan häller bartendern upp öl till kunden och väntar på nästa.
 //Det tar tre sekunder att hämta ett glas och tre sekunder till att hälla upp öl.
@@ -14,6 +15,12 @@ namespace Labb6
 {
     public class Bartender
     {
+        private BlockingCollection<Patron> barQueue;
+        public Bartender(BlockingCollection<Patron> barqueue)
+        {
+            this.barQueue = barqueue;
+        }
+
         int numberofGlasses = 20;
         Glass newGlass = new Glass();
         public void PourBeer(Action <string> callback)
