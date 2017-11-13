@@ -39,8 +39,10 @@ namespace Labb6
             //}
             #endregion
 
-            //skapa en delegate för att kunna använda GetGlassFromShelf från main
 
+
+            //skapa en delegate för att kunna använda GetGlassFromShelf från main
+            callback("Pours a beer");
         }
 
 

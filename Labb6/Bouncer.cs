@@ -70,5 +70,9 @@ namespace Labb6
             callback($"Bouncern lets {patron.Name} into the bar.");
             
         }
+        public void Work()
+        {
+
+        }
     }
 }
