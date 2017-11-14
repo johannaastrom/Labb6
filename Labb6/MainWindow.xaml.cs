@@ -25,28 +25,15 @@ namespace Labb6
     public partial class MainWindow : Window
     {
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
+
         bool isBarOpen = false;
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
+
         private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
         public BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
-
-        public void PlaceGlassOnShelf(Glass cleanGlass)
-        {
-            shelf.Add(cleanGlass);
-        }
-        private void GetGlassFromShelf(string takeGlass)
-        {
-            while (!shelf.TryTake(out Glass result))
-            { }
-
-            Dispatcher.Invoke(() =>
-            {
-                BartenderListBox.Items.Insert(0, "pours a beer.");
-            });
-
-        }
+        private BlockingCollection<Glass> GlassQueue = new BlockingCollection<Glass>();
 
         public MainWindow()
         {
@@ -75,11 +62,12 @@ namespace Labb6
             {
                 BartenderListBox.Items.Insert(0, barInfo);
             });
+        }
 
-            if (!isBarOpen /*och när gästerna har gått*/)
-            {
-                BartenderListBox.Items.Insert(0, "Bartender goes home");
-            }
+        private void printNumberOfGuests(string text)
+        {
+            Dispatcher.Invoke(() =>
+            { NumberOfGuests.Content = text; });
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -98,42 +86,28 @@ namespace Labb6
 
             OpenButton.IsEnabled = false;
             isBarOpen = true;                //Baren öppnas
-            stillGuestsInBar = true; //Det finns gäster i baren
+            stillGuestsInBar = true;         //Det finns gäster i baren
             if (isBarOpen == true)
             {
                 Bouncer b = new Bouncer(barQueue);
                 Bartender Bar = new Bartender(barQueue);
-                Task.Run(() =>
+
+                Task.Run(() => b.Work(printBouncerInfo, printNumberOfGuests));
+
+                Task.Run(() => Bar.PourBeer(printBartenderInfo));
+
+
+                if (!isBarOpen)
                 {
-                    while (isBarOpen)
-                    {
-                        b.Work(printBouncerInfo);
+                    cts.Cancel();
+                }
+            }
+        }
 
-                        Bar.PourBeer(printBartenderInfo);
-
-                        Dispatcher.Invoke(() =>
-                        {
-                            NumberOfGuests.Content = "Number of guests: " + ++numberofGuests;
-                        });
-
-                        //Dispatcher.Invoke(() =>
-                        //{
-                        //    NumberOfGlasses.Content = "Number of empty glasses: " + --numberofGlasses;
-                        //});
-
-                        if (!isBarOpen)
-                        {
-                            cts.Cancel();
-                        }
-                    }
-                });
-            }  
-    }
-
-    private void StopButton_Click(object sender, RoutedEventArgs e)
-    {
-        Environment.Exit(Environment.ExitCode);
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
+        }
     }
 }
-    }
 

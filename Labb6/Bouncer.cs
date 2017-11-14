@@ -39,12 +39,12 @@ namespace Labb6
             guestList.Add("RundaRobin");
             guestList.Add("Samuel Adams");
             guestList.Add("NyktreNiklas");
-            guestList.Add("Andreas");
-            guestList.Add("David");
+            guestList.Add("OnyktreOlle");
+            guestList.Add("GalneGunnar");
             guestList.Add("Johan");
             guestList.Add("Anders");
             guestList.Add("Erik");
-            guestList.Add("Elin");
+            guestList.Add("ElakaElin");
             guestList.Add("Molly");
             guestList.Add("PackadePatrik");
             guestList.Add("VingligaVictoria");
@@ -72,18 +72,22 @@ namespace Labb6
 
             return patron;
         }
-        public void Work(Action<string> callback) //creates a guest
+        public void Work(Action<string> callback, Action<string> printNumberOfGuests) //creates a guest
         {
             Random rTime = new Random();
+            int numberOfGuests = 0;
             while (true)
             {
                 Patron p = CreateGuest();
                 callback($"Bouncern lets {p.Name} into the bar.");
                 barQueue.Add(p); //Guest goes to the bar.
-                int randomTimePosition = rTime.Next(3, 10) * 1000;
+                int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
                 Thread.Sleep(randomTimePosition);
+
+                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+
             }
-            
+
         }
     }
 }

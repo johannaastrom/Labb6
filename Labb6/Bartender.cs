@@ -17,6 +17,7 @@ namespace Labb6
     {
         private BlockingCollection<Patron> barQueue;
         private BlockingCollection<Glass> GlassQueue;
+        int numberofGlasses = 20;
 
         public Bartender(BlockingCollection<Patron> barqueue)
         {
@@ -27,18 +28,25 @@ namespace Labb6
             this.GlassQueue = glassqueue;
         }
 
-        //int numberofGlasses = 20;
-        //Glass newGlass = new Glass();
+        public void PourBeer(Action<string> callback)
+        {
+            Glass g = new Glass();
 
-        public void PourBeer(Action <string> callback)
-        { 
-            while(true)
+            for (int i = 0; i < numberofGlasses; i++)
+            {
+                GlassQueue.Add(g);
+            }
+
+            while (true)
             {
                 callback("Pours a beer");
                 barQueue.Take();
                 GlassQueue.Take();
-                
+
             }
+            //bartender går hem
+            callback("Bartender goes home");
+
 
             #region gammal kod
             //Queue<Glass> glassQueue = new Queue<Glass>();
