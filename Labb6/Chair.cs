@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Labb6
 {
-    public class Glass
+    public class Chair
     {
     }
 }

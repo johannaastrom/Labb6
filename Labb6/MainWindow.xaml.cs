@@ -30,10 +30,13 @@ namespace Labb6
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
+        int numberofChairs = 5;
 
-        private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
-        public BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
-        private BlockingCollection<Glass> GlassQueue = new BlockingCollection<Glass>();
+        //private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
+         BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
+         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
+         BlockingCollection<Chair> availableChairQueue = new BlockingCollection<Chair>();
+         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
 
         public MainWindow()
         {
@@ -70,38 +73,52 @@ namespace Labb6
             { NumberOfGuests.Content = text; });
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void CreateChairs()      //create chair queue
         {
-            isBarOpen = false;
-            OpenButton.IsEnabled = true;
+            for (int i = 0; i < numberofChairs; i++)
+            {
+                availableChairQueue.Add(new Chair());
+            }
+        }
+
+        private void CreateGlasses()
+        {
+            for (int i = 0; i < numberofGlasses; i++)
+            {
+                CleanGlassQueue.Add(new Glass());
+                Console.WriteLine("added a glass to queue.");
+            }
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            if (cts.IsCancellationRequested)
-            {
-                cts = new CancellationTokenSource();
-            }
-            CancellationToken ct = cts.Token;
+            CreateGlasses();
+
+            if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); } CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
             isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
             if (isBarOpen == true)
             {
-                Bouncer b = new Bouncer(barQueue);
-                Bartender Bar = new Bartender(barQueue);
+                Bouncer bouncer = new Bouncer(barQueue);
+                Bartender bartender = new Bartender(barQueue, CleanGlassQueue);
 
-                Task.Run(() => b.Work(printBouncerInfo, printNumberOfGuests));
+                Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
 
-                Task.Run(() => Bar.PourBeer(printBartenderInfo));
-
+                Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 if (!isBarOpen)
                 {
                     cts.Cancel();
                 }
             }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            isBarOpen = false;
+            OpenButton.IsEnabled = true;
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)

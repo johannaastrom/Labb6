@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bouncer.cs" />
+    <Compile Include="Chair.cs" />
     <Compile Include="Glass.cs" />
     <Compile Include="Patron.cs" />
     <Compile Include="Waiter.cs" />

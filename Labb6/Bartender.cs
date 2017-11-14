@@ -16,34 +16,35 @@ namespace Labb6
     public class Bartender
     {
         private BlockingCollection<Patron> barQueue;
-        private BlockingCollection<Glass> GlassQueue;
+        private BlockingCollection<Glass> CleanGlassQueue;
+        private BlockingCollection<Glass> DirtyGlassQueue;
+        private BlockingCollection<Chair> availableChairQueue;
+        private BlockingCollection<Patron> patronQueue;
+
         int numberofGlasses = 20;
 
-        public Bartender(BlockingCollection<Patron> barqueue)
+        public Bartender(/*BlockingCollection<Glass> dirtyGlassQueue, */BlockingCollection<Patron> barqueue, BlockingCollection<Glass> glassqueue)
         {
+            //this.DirtyGlassQueue = dirtyGlassQueue;
             this.barQueue = barqueue;
-        }
-        public Bartender(BlockingCollection<Glass> glassqueue)
-        {
-            this.GlassQueue = glassqueue;
+            this.CleanGlassQueue = glassqueue;
         }
 
         public void PourBeer(Action<string> callback)
         {
-            Glass g = new Glass();
-
-            for (int i = 0; i < numberofGlasses; i++)
-            {
-                GlassQueue.Add(g);
-            }
 
             while (true)
             {
-                callback("Pours a beer");
-                barQueue.Take();
-                GlassQueue.Take();
+                callback("Gets a glass");
+                Thread.Sleep(3000);
+                callback($"Pours a beer to" /*{((Patron)barQueue.First()).Name}.*/);
+                Thread.Sleep(3000);
+                barQueue.Take();     //trytake???
 
+                barQueue.First().PatronFoundChair(callback, DirtyGlassQueue, availableChairQueue, patronQueue);
+                CleanGlassQueue.TryTake(out Glass g);
             }
+
             //bartender går hem
             callback("Bartender goes home");
 
