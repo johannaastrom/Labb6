@@ -23,11 +23,11 @@ namespace Labb6
 
         int numberofGlasses = 20;
 
-        public Bartender(/*BlockingCollection<Glass> dirtyGlassQueue, */BlockingCollection<Patron> barqueue, BlockingCollection<Glass> glassqueue)
+        public Bartender(/*BlockingCollection<Glass> dirtyGlassQueue, */BlockingCollection<Patron> barQueue, BlockingCollection<Glass> glassQueue)
         {
             //this.DirtyGlassQueue = dirtyGlassQueue;
-            this.barQueue = barqueue;
-            this.CleanGlassQueue = glassqueue;
+            this.barQueue = barQueue;
+            this.CleanGlassQueue = glassQueue;
         }
 
         public void PourBeer(Action<string> callback)
@@ -37,7 +37,7 @@ namespace Labb6
             {
                 callback("Gets a glass");
                 Thread.Sleep(3000);
-                callback($"Pours a beer to" /*{((Patron)barQueue.First()).Name}.*/);
+                callback($"Pours a beer to {((Patron)barQueue.First()).Name} ");
                 Thread.Sleep(3000);
                 barQueue.Take();     //trytake???
 
