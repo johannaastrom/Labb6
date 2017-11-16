@@ -26,9 +26,9 @@ namespace Labb6
     {
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
 
-       Bouncer bouncer = new Bouncer();
+        Bouncer bouncer = new Bouncer();
         Bartender bartender = new Bartender();
-     //   Waiter waiter = new Waiter();
+        //   Waiter waiter = new Waiter();
 
         bool isBarOpen = false;
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
@@ -53,16 +53,8 @@ namespace Labb6
             {
                 BouncerListBox.Items.Insert(0, bInfo);
             });
-
-            if (!isBarOpen)
-            {
-                Dispatcher.Invoke(() =>
-                  {
-                      BouncerListBox.Items.Insert(0, "Bouncer goes home");
-                      // gör så att bouncerns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "bouncer goes home" efter varje).
-                  });
-            }
         }
+
         private void printWaiterInfo(string waiterInfo)
         {
             Dispatcher.Invoke(() =>
@@ -136,7 +128,7 @@ namespace Labb6
             isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
 
-            if (isBarOpen == true)
+            if (isBarOpen)
             {
                 Bouncer bouncer = new Bouncer(BartenderQueue);
                 //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
@@ -147,14 +139,16 @@ namespace Labb6
                 //Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
-
                 if (!isBarOpen)
                 {
                     cts.Cancel();
                 }
+
             }
 
-            if (stillGuestsInBar == true) //dvs när partonQueue är tom ska denna bli false.
+
+
+            if (stillGuestsInBar == true) //dvs när patronQueue är tom ska denna bli false.
             {
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
@@ -173,6 +167,11 @@ namespace Labb6
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
+
+            BouncerListBox.Items.Insert(0, "Bouncer goes home.");
+            cts.Cancel();
+            
+
             OpenButton.IsEnabled = true;
         }
 

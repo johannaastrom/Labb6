@@ -22,6 +22,7 @@ namespace Labb6
         private BlockingCollection<Glass> dirtyGlassQueue;
 
         public bool isBarOpen = false;
+        bool stillGuestsInBar = false;
         public int numberOfGlasses = 20;
        
         public Waiter(ConcurrentStack<Glass> dirtyGlassQueue)
@@ -59,7 +60,7 @@ namespace Labb6
                         }
                     }
                 }
-                Callback("The waiter goes home.");
+                Callback("The waiter goes HOME.");
             });
         }
         public void Close()

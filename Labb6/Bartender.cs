@@ -22,6 +22,7 @@ namespace Labb6
         private BlockingCollection<Glass> DirtyGlassQueue;
 
         public bool isBarOpen = false;
+        bool stillGuestsInBar = false;
 
         int numberofGlasses = 20;
 
@@ -37,7 +38,9 @@ namespace Labb6
 
         public void PourBeer(Action<string> callback)
         {
-            while (true)
+            stillGuestsInBar = true;
+
+            while (stillGuestsInBar)
             {
                 callback($"Gets a glass");
                 Thread.Sleep(3000);
@@ -50,8 +53,7 @@ namespace Labb6
             }
 
             //bartender går hem
-            IsClosing();
-            callback("Bartender goes home");
+            callback("Bartender goes HOME");
 
 
             #region gammal kod

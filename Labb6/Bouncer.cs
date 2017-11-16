@@ -23,6 +23,8 @@ namespace Labb6
 {
     public class Bouncer
     {
+        CancellationTokenSource cts = new CancellationTokenSource();
+
         private BlockingCollection<Patron> BartenderQueue;
 
         public bool isBarOpen = false;
@@ -83,17 +85,25 @@ namespace Labb6
         {
             Random rTime = new Random();
             int numberOfGuests = 0;
+            isBarOpen = true;
 
-            while (true)
+            while (isBarOpen)
             {
-                Patron p = CreateGuest();
-                callback($"{p.Name} gets into the bar.");
-                BartenderQueue.Add(p); //Guest goes to the bar.
-                int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
-                Thread.Sleep(randomTimePosition);
+                if (isBarOpen)
+                {
+                    Patron p = CreateGuest();
+                    callback($"{p.Name} gets into the bar.");
+                    BartenderQueue.Add(p); //Guest goes to the bar.
+                    int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
+                    Thread.Sleep(randomTimePosition);
 
-                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+                    printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+                }
+                else
+                    cts.Cancel();
             }
+            if (!isBarOpen)
+                callback("bouncern goes HOME.");
         }
     }
 }

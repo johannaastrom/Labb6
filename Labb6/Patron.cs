@@ -20,7 +20,7 @@ namespace Labb6
             PatronQueue.Add(name);
         }
 
-       public Patron() { }
+        public Patron() { }
 
         private BlockingCollection<Patron> patronQueue;
         private BlockingCollection<Glass> dirtyGlassQueue;
