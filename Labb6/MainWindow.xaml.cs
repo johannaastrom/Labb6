@@ -143,9 +143,7 @@ namespace Labb6
                 {
                     cts.Cancel();
                 }
-
             }
-
 
 
             if (stillGuestsInBar == true) //dvs när patronQueue är tom ska denna bli false.
@@ -167,11 +165,11 @@ namespace Labb6
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
-
-            BouncerListBox.Items.Insert(0, "Bouncer goes home.");
-            cts.Cancel();
-            
-
+            if (!isBarOpen)
+            {
+                BouncerListBox.Items.Insert(0, "Bouncer goes home.");
+                cts.Cancel();
+            }
             OpenButton.IsEnabled = true;
         }
 
