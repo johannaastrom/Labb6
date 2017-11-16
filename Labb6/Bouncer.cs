@@ -25,7 +25,6 @@ namespace Labb6
     {
         private BlockingCollection<Patron> BartenderQueue;
 
-        public event Action IsClosing;
         public bool isBarOpen = false;
 
         public Bouncer(BlockingCollection<Patron> barqueue)

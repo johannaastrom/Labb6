@@ -45,7 +45,6 @@ namespace Labb6
         public MainWindow()
         {
             InitializeComponent();
-            bouncer.IsClosing += bartender.Close;
         }
 
         private void printBouncerInfo(string bInfo)

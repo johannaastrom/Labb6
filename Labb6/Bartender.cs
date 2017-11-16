@@ -21,7 +21,6 @@ namespace Labb6
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
 
-        public event Action IsClosing;
         public bool isBarOpen = false;
 
         int numberofGlasses = 20;
