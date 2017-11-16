@@ -27,7 +27,7 @@ namespace Labb6
 
         private BlockingCollection<Patron> BartenderQueue;
 
-        public bool isBarOpen = false;
+        public Func<bool> isBarOpen { get; set; }
 
         public Bouncer(BlockingCollection<Patron> barqueue)
         {
@@ -85,12 +85,9 @@ namespace Labb6
         {
             Random rTime = new Random();
             int numberOfGuests = 0;
-            isBarOpen = true;
-
-            while (isBarOpen)
+           
+            while (isBarOpen())
             {
-                if (isBarOpen)
-                {
                     Patron p = CreateGuest();
                     callback($"{p.Name} gets into the bar.");
                     BartenderQueue.Add(p); //Guest goes to the bar.
@@ -98,12 +95,10 @@ namespace Labb6
                     Thread.Sleep(randomTimePosition);
 
                     printNumberOfGuests("Number of guests: " + ++numberOfGuests);
-                }
-                else
-                    cts.Cancel();
+
             }
-            if (!isBarOpen)
-                callback("bouncern goes HOME.");
+            if (!isBarOpen())
+                callback("The bouncer goes home.");
         }
     }
 }

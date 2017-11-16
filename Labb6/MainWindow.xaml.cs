@@ -30,8 +30,8 @@ namespace Labb6
         Bartender bartender = new Bartender();
         //   Waiter waiter = new Waiter();
 
-        bool isBarOpen = false;
-        bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
+        public bool isBarOpen = false;
+       public bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
         int numberofChairs = 5;
@@ -131,6 +131,7 @@ namespace Labb6
             if (isBarOpen)
             {
                 Bouncer bouncer = new Bouncer(BartenderQueue);
+                bouncer.isBarOpen = () => isBarOpen;
                 //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
                 //Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
 
@@ -165,11 +166,11 @@ namespace Labb6
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
-            if (!isBarOpen)
-            {
-                BouncerListBox.Items.Insert(0, "Bouncer goes home.");
-                cts.Cancel();
-            }
+            //if (!isBarOpen)
+            //{
+            //    BouncerListBox.Items.Insert(0, "Bouncer goes home.");
+            //    cts.Cancel();
+            //}
             OpenButton.IsEnabled = true;
         }
 
