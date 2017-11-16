@@ -20,9 +20,8 @@ namespace Labb6
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> dirtyGlassQueue;
-        
 
-        public bool isBarOpen { get; set; }
+        public bool isBarOpen = false;
         public int numberOfGlasses = 20;
        
         public Waiter(ConcurrentStack<Glass> dirtyGlassQueue)
@@ -36,14 +35,10 @@ namespace Labb6
             CleanGlassQueue = cleanGlassQueue;
         }
 
-        public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses/*ConcurrentStack<Glass> DirtyGlassQueue,
-           BlockingCollection<Glass> cleanGlassQueue*/)
+        public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
             this.Callback = Callback;
             this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
-
-            //this.DirtyGlassQueue = DirtyGlassQueue;
-            //this.CleanGlassQueue = cleanGlassQueue;
 
             Task.Run(() =>
             {
@@ -60,14 +55,14 @@ namespace Labb6
                             Callback("The waiter places the clean glass back on the shelf.");
                             CleanGlassQueue.Add(new Glass());
 
-                            printNumberOfCleanGlasses("Number of clean glasses: " + ++numberOfGlasses);
+                            printNumberOfCleanGlasses("Number of empty glasses: " + ++numberOfGlasses);
                         }
                     }
                 }
                 Callback("The waiter goes home.");
             });
         }
-        public void StopServing()
+        public void Close()
         {
             isBarOpen = false;
         }

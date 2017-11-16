@@ -25,9 +25,16 @@ namespace Labb6
     {
         private BlockingCollection<Patron> BartenderQueue;
 
+        public event Action IsClosing;
+        public bool isBarOpen = false;
+
         public Bouncer(BlockingCollection<Patron> barqueue)
         {
             this.BartenderQueue = barqueue;
+        }
+
+        public Bouncer()
+        {
         }
 
         public Patron CreateGuest() //Creates guests by random time and name from list

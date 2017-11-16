@@ -21,7 +21,14 @@ namespace Labb6
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
 
+        public event Action IsClosing;
+        public bool isBarOpen = false;
+
         int numberofGlasses = 20;
+
+        public Bartender()
+        {
+        }
 
         public Bartender(BlockingCollection<Patron> barQueue, BlockingCollection<Glass> glassQueue)
         {
@@ -31,7 +38,6 @@ namespace Labb6
 
         public void PourBeer(Action<string> callback)
         {
-
             while (true)
             {
                 callback($"Gets a glass");
@@ -45,6 +51,7 @@ namespace Labb6
             }
 
             //bartender går hem
+            IsClosing();
             callback("Bartender goes home");
 
 
@@ -69,6 +76,10 @@ namespace Labb6
             //}
             #endregion
 
+        }
+        public void Close()
+        {
+            isBarOpen = false;
         }
     }
 }

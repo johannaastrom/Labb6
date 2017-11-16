@@ -26,6 +26,10 @@ namespace Labb6
     {
         CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
 
+       Bouncer bouncer = new Bouncer();
+        Bartender bartender = new Bartender();
+     //   Waiter waiter = new Waiter();
+
         bool isBarOpen = false;
         bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
@@ -41,6 +45,7 @@ namespace Labb6
         public MainWindow()
         {
             InitializeComponent();
+            bouncer.IsClosing += bartender.Close;
         }
 
         private void printBouncerInfo(string bInfo)
@@ -53,9 +58,10 @@ namespace Labb6
             if (!isBarOpen)
             {
                 Dispatcher.Invoke(() =>
-                {
-                    BouncerListBox.Items.Insert(0, "Bouncer goes home");
-                });
+                  {
+                      BouncerListBox.Items.Insert(0, "Bouncer goes home");
+                      // gör så att bouncerns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "bouncer goes home" efter varje).
+                  });
             }
         }
         private void printWaiterInfo(string waiterInfo)
@@ -64,6 +70,15 @@ namespace Labb6
             {
                 WaiterListBox.Items.Insert(0, waiterInfo);
             });
+
+            if (!stillGuestsInBar)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    WaiterListBox.Items.Insert(0, "Waiter goes home");
+                    // gör så att waiterns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "waiter goes home" efter varje).
+                });
+            }
         }
 
         private void printBartenderInfo(string barInfo)
@@ -72,6 +87,15 @@ namespace Labb6
             {
                 BartenderListBox.Items.Insert(0, barInfo);
             });
+
+            if (!stillGuestsInBar)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    BartenderListBox.Items.Insert(0, "Bartender goes home");
+                    // gör så att bartenderns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "bartender goes home" efter varje).
+                });
+            }
         }
 
         private void printNumberOfGuests(string text)
@@ -112,19 +136,35 @@ namespace Labb6
             OpenButton.IsEnabled = false;
             isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
+
             if (isBarOpen == true)
             {
                 Bouncer bouncer = new Bouncer(BartenderQueue);
-                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
-                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
+                //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                //Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
 
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
+
+                //Task.Run(() => bartender.PourBeer(printBartenderInfo));
+
+                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
+                if (!isBarOpen)
+                {
+                    cts.Cancel();
+                }
+            }
+
+            if (stillGuestsInBar == true) //dvs när partonQueue är tom ska denna bli false.
+            {
+                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
-                if (!isBarOpen)
+                if (!stillGuestsInBar)
                 {
                     cts.Cancel();
                 }

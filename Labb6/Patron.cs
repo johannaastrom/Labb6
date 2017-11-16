@@ -10,6 +10,7 @@ namespace Labb6
 {
     public class Patron
     {
+        bool stillGuestsInBar;
         public string Name { get; set; }
         BlockingCollection<string> PatronQueue = new BlockingCollection<string>();
 
@@ -48,6 +49,9 @@ namespace Labb6
             });
         }
 
-
+        public void EmptyBar()
+        {
+            stillGuestsInBar = false;
+        }
     }
 }
