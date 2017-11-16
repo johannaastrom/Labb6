@@ -15,18 +15,17 @@ namespace Labb6
 {
     public class Bartender
     {
-        private BlockingCollection<Patron> barQueue;
+        private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
+        private BlockingCollection<Chair> AvailableChairQueue;
+        private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
-        private BlockingCollection<Chair> availableChairQueue;
-        private BlockingCollection<Patron> patronQueue;
 
         int numberofGlasses = 20;
 
-        public Bartender(/*BlockingCollection<Glass> dirtyGlassQueue, */BlockingCollection<Patron> barQueue, BlockingCollection<Glass> glassQueue)
+        public Bartender(BlockingCollection<Patron> barQueue, BlockingCollection<Glass> glassQueue)
         {
-            //this.DirtyGlassQueue = dirtyGlassQueue;
-            this.barQueue = barQueue;
+            this.BartenderQueue = barQueue;
             this.CleanGlassQueue = glassQueue;
         }
 
@@ -35,13 +34,13 @@ namespace Labb6
 
             while (true)
             {
-                callback("Gets a glass");
+                callback($"Gets a glass");
                 Thread.Sleep(3000);
-                callback($"Pours a beer to {((Patron)barQueue.First()).Name} ");
+                callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                 Thread.Sleep(3000);
-                barQueue.Take();     //trytake???
+                BartenderQueue.Take();     //trytake???
 
-                barQueue.First().PatronFoundChair(callback, DirtyGlassQueue, availableChairQueue, patronQueue);
+                BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);
                 CleanGlassQueue.TryTake(out Glass g);
             }
 

@@ -15,30 +15,41 @@ namespace Labb6
     public class Waiter
     {
         private Action<string> Callback;
+        private Action<string> printNumberOfCleanGlasses;
         private ConcurrentStack<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
+        private BlockingCollection<Glass> dirtyGlassQueue;
+        
+
         public bool isBarOpen { get; set; }
+        public int numberOfGlasses = 20;
        
         public Waiter(ConcurrentStack<Glass> dirtyGlassQueue)
         {
             this.DirtyGlassQueue = dirtyGlassQueue;
         }
 
-        public void Work(Action<string> Callback, ConcurrentStack<Glass> DirtyGlassQueue,
-           BlockingCollection<Glass> cleanGlassQueue, bool bouncerIsWorking, BlockingCollection<Patron> PatronQueue)
+        public Waiter(BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Glass> cleanGlassQueue)
+        {
+            this.dirtyGlassQueue = dirtyGlassQueue;
+            CleanGlassQueue = cleanGlassQueue;
+        }
+
+        public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses/*ConcurrentStack<Glass> DirtyGlassQueue,
+           BlockingCollection<Glass> cleanGlassQueue*/)
         {
             this.Callback = Callback;
-            this.DirtyGlassQueue = DirtyGlassQueue;
-            this.CleanGlassQueue = cleanGlassQueue;
-            this.isBarOpen = bouncerIsWorking;
-            this.PatronQueue = PatronQueue;
+            this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
+
+            //this.DirtyGlassQueue = DirtyGlassQueue;
+            //this.CleanGlassQueue = cleanGlassQueue;
 
             Task.Run(() =>
             {
                 while (isBarOpen)
                 {
-                    while (CleanGlassQueue.Count() != 8)
+                    while (CleanGlassQueue.Count() != numberOfGlasses)
                     {
                         if (!DirtyGlassQueue.IsEmpty)
                         {
@@ -48,19 +59,17 @@ namespace Labb6
                             Thread.Sleep(15000);
                             Callback("The waiter places the clean glass back on the shelf.");
                             CleanGlassQueue.Add(new Glass());
+
+                            printNumberOfCleanGlasses("Number of clean glasses: " + ++numberOfGlasses);
                         }
                     }
                 }
+                Callback("The waiter goes home.");
             });
         }
         public void StopServing()
         {
             isBarOpen = false;
         }
-        //public Waiter(BlockingCollection<Glass> cleanglassqueue) // hur gör med konstruktor??
-        //{
-        //    this.CleanGlassQueue = cleanglassqueue;
-        //}
-
     }
 }

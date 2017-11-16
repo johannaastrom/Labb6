@@ -22,16 +22,16 @@ namespace Labb6
        public Patron() { }
 
         private BlockingCollection<Patron> patronQueue;
-        private BlockingCollection<Glass> DirtyGlassQueue;
+        private BlockingCollection<Glass> dirtyGlassQueue;
         private BlockingCollection<Chair> availableChairQueue;
         public string hasBeer { get; set; }
         private Action<string> Callback;
 
         //the patron looks for an available chair, sits down and then leaves the bar. A new Glass is added to DirtyGlassQueue.
-        public void PatronFoundChair(Action<string> callback, BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Chair> availableChairQueue, BlockingCollection<Patron> patronQueue)
+        public void PatronFoundChair(Action<string> callback, BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Chair> availableChairQueue, BlockingCollection<Patron> patronQueue)
         {
             this.Callback = callback;
-            this.DirtyGlassQueue = DirtyGlassQueue;
+            this.dirtyGlassQueue = dirtyGlassQueue;
             this.availableChairQueue = availableChairQueue;
             this.patronQueue = patronQueue;
 
@@ -44,7 +44,7 @@ namespace Labb6
                 callback($"{hasBeer} sits down on a chair.");
                 Thread.Sleep(10000);
                 callback($"{hasBeer} leaves the bar.");
-                DirtyGlassQueue.Add(new Glass());
+                dirtyGlassQueue.Add(new Glass());
             });
         }
 

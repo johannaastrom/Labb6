@@ -32,11 +32,11 @@ namespace Labb6
         int numberofGlasses = 20;
         int numberofChairs = 5;
 
-        //private BlockingCollection<Glass> shelf = new BlockingCollection<Glass>();
-         BlockingCollection<Patron> barQueue = new BlockingCollection<Patron>();
-         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
-         BlockingCollection<Chair> availableChairQueue = new BlockingCollection<Chair>();
-         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
+        BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
+        BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
+        BlockingCollection<Chair> AvailableChairQueue = new BlockingCollection<Chair>();
+        BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
+        BlockingCollection<Patron> PatronQueue = new BlockingCollection<Patron>();
 
         public MainWindow()
         {
@@ -58,6 +58,13 @@ namespace Labb6
                 });
             }
         }
+        private void printWaiterInfo(string waiterInfo)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                WaiterListBox.Items.Insert(0, waiterInfo);
+            });
+        }
 
         private void printBartenderInfo(string barInfo)
         {
@@ -72,12 +79,17 @@ namespace Labb6
             Dispatcher.Invoke(() =>
             { NumberOfGuests.Content = text; });
         }
+        private void printNumberOfCleanGlasses(string text)
+        {
+            Dispatcher.Invoke(() =>
+            { NumberOfGuests.Content = text; });
+        }
 
         private void CreateChairs()      //create chair queue
         {
             for (int i = 0; i < numberofChairs; i++)
             {
-                availableChairQueue.Add(new Chair());
+                AvailableChairQueue.Add(new Chair());
             }
         }
 
@@ -94,19 +106,23 @@ namespace Labb6
         {
             CreateGlasses();
 
-            if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); } CancellationToken ct = cts.Token;
+            if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
+            CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
             isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
             if (isBarOpen == true)
             {
-                Bouncer bouncer = new Bouncer(barQueue);
-                Bartender bartender = new Bartender(barQueue, CleanGlassQueue);
+                Bouncer bouncer = new Bouncer(BartenderQueue);
+                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
 
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
+
+                Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
                 if (!isBarOpen)
                 {

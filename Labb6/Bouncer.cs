@@ -23,11 +23,11 @@ namespace Labb6
 {
     public class Bouncer
     {
-        private BlockingCollection<Patron> barQueue;
+        private BlockingCollection<Patron> BartenderQueue;
 
         public Bouncer(BlockingCollection<Patron> barqueue)
         {
-            this.barQueue = barqueue;
+            this.BartenderQueue = barqueue;
         }
 
         public Patron CreateGuest() //Creates guests by random time and name from list
@@ -82,7 +82,7 @@ namespace Labb6
             {
                 Patron p = CreateGuest();
                 callback($"{p.Name} gets into the bar.");
-                barQueue.Add(p); //Guest goes to the bar.
+                BartenderQueue.Add(p); //Guest goes to the bar.
                 int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
                 Thread.Sleep(randomTimePosition);
 
