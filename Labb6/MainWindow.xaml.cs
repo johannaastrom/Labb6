@@ -24,7 +24,7 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
-        CancellationTokenSource cts = new CancellationTokenSource(); 
+        CancellationTokenSource cts = new CancellationTokenSource();
 
         Bouncer bouncer = new Bouncer();
         Bartender bartender = new Bartender();
@@ -81,7 +81,7 @@ namespace Labb6
             Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
-        //Creating chairs and glasses queues.    BEHÖVER VI DESSA?
+        //Creating chairs and glasses queues.             BEHÖVS DESSA TVÅ METODER?
         private void CreateChairs()
         {
             for (int i = 0; i < numberofChairs; i++)
@@ -107,7 +107,7 @@ namespace Labb6
             CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
-            isBarOpen = true;                //Baren öppnas
+            isBarOpen = true;
 
             if (isBarOpen)
             {
@@ -136,29 +136,6 @@ namespace Labb6
                     cts.Cancel();
                 }
             }
-
-            //if (stillGuestsInBar == true/* && PubQueue.Count() > 0*/) //dvs när patronQueue är tom ska denna bli false.
-            //{
-            //    //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
-                //bartender.isBarOpen = () => isBarOpen;
-
-                //Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
-                //waiter.isBarOpen = () => isBarOpen;
-
-                //Patron patron = new Patron(AvailableChairQueue, DirtyGlassQueue);
-                //patron.isBarOpen = () => isBarOpen;
-
-                //Task.Run(() => bartender.PourBeer(printBartenderInfo));
-
-                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
-
-                //Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
-
-                //if (!stillGuestsInBar)
-                //{
-                //    cts.Cancel();
-                //}
-            //}
         }
 
         //Button to close the bar.

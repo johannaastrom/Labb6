@@ -24,7 +24,7 @@ namespace Labb6
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
-        BlockingCollection<Patron> PubQueue;
+        private BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
 

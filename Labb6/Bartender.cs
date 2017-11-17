@@ -20,10 +20,9 @@ namespace Labb6
         private BlockingCollection<Chair> AvailableChairQueue;
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
-        BlockingCollection<Patron> PubQueue;
+        private BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
-        //  public bool isBarOpen = false;
 
         int numberofGlasses = 20;
 
@@ -31,10 +30,10 @@ namespace Labb6
         {
         }
 
-        public Bartender(BlockingCollection<Patron> barQueue, BlockingCollection<Glass> glassQueue)
+        public Bartender(BlockingCollection<Patron> bartenderQueue, BlockingCollection<Glass> CleanGlassQueue)
         {
-            this.BartenderQueue = barQueue;
-            this.CleanGlassQueue = glassQueue;
+            this.BartenderQueue = bartenderQueue;
+            this.CleanGlassQueue = CleanGlassQueue;
         }
 
         public void PourBeer(Action<string> callback)
@@ -47,7 +46,7 @@ namespace Labb6
                     Thread.Sleep(3000);
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                     Thread.Sleep(3000);
-                    BartenderQueue.Take();     //trytake???
+                    BartenderQueue.TryTake(out Patron p);
                     CleanGlassQueue.TryTake(out Glass g);
 
                     //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);     BEHÖVS DETTA?

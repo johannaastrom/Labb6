@@ -14,14 +14,14 @@ namespace Labb6
 {
     public class Waiter
     {
-        private Action<string> Callback;
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
-        BlockingCollection<Patron> PubQueue;
+        private BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
 
+        //Three constructors
         public Waiter(BlockingCollection<Glass> DirtyGlassQueue)
         {
             this.DirtyGlassQueue = DirtyGlassQueue;
@@ -33,9 +33,7 @@ namespace Labb6
             this.CleanGlassQueue = CleanGlassQueue;
         }
 
-        public Waiter()
-        {
-        }
+        public Waiter() { }
 
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
@@ -45,14 +43,14 @@ namespace Labb6
             {
                 while (DirtyGlassQueue.Count() > 0)
                 {
-                    printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
-
                     DirtyGlassQueue.TryTake(out Glass g);
                     Thread.Sleep(3000);
                     Callback("The waiter picks up a dirty glass and washes it");
                     Thread.Sleep(3000);
                     Callback("The waiter places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
+
+                    printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 }
             }
             if (!isBarOpen())
