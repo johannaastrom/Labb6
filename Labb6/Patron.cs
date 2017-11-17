@@ -14,6 +14,7 @@ namespace Labb6
         public string Name { get; set; }
         BlockingCollection<string> PatronQueue = new BlockingCollection<string>();
         BlockingCollection<Patron> PubQueue;
+        public Func<bool> isBarOpen { get; set; }
 
         public Patron(string name)
         {
@@ -24,35 +25,30 @@ namespace Labb6
         public Patron() { }
 
         private BlockingCollection<Patron> patronQueue;
-        private BlockingCollection<Glass> dirtyGlassQueue;
+        private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Chair> availableChairQueue;
         public string hasBeer { get; set; }
         private Action<string> Callback;
 
         //the patron looks for an available chair, sits down and then leaves the bar. A new Glass is added to DirtyGlassQueue.
-        public void PatronFoundChair(Action<string> callback, BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Chair> availableChairQueue, BlockingCollection<Patron> patronQueue)
+        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs)
         {
-            this.Callback = callback;
-            this.dirtyGlassQueue = dirtyGlassQueue;
-            this.availableChairQueue = availableChairQueue;
-            this.patronQueue = patronQueue;
+            int numberOfChairs = 21;
 
-            Task.Run(() =>
+            while (isBarOpen())
             {
                 hasBeer = PatronQueue.FirstOrDefault();
                 PatronQueue.Take();
                 callback($"{hasBeer} looks for an available chair.");
                 Thread.Sleep(4000);
+                availableChairQueue.TryTake(out Chair chair);
+                printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
                 callback($"{hasBeer} sits down on a chair.");
                 Thread.Sleep(10000);
                 callback($"{hasBeer} leaves the bar.");
-                dirtyGlassQueue.Add(new Glass());
-            });
-        }
-
-        public void EmptyBar()
-        {
-            stillGuestsInBar = false;
+                availableChairQueue.Add(new Chair());
+                DirtyGlassQueue.Add(new Glass());
+            }
         }
     }
 }

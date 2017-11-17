@@ -15,7 +15,6 @@ namespace Labb6
     public class Waiter
     {
         private Action<string> Callback;
-        private Action<string> printNumberOfCleanGlasses;
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
@@ -26,9 +25,9 @@ namespace Labb6
         //bool stillGuestsInBar = false;
         // public int numberOfGlasses = 20;
 
-        public Waiter(BlockingCollection<Glass> dirtyGlassQueue)
+        public Waiter(BlockingCollection<Glass> DirtyGlassQueue)
         {
-            this.DirtyGlassQueue = dirtyGlassQueue;
+            this.DirtyGlassQueue = DirtyGlassQueue;
         }
 
         public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue)
@@ -49,18 +48,21 @@ namespace Labb6
                 //{
                 //    if (!DirtyGlassQueue.IsEmpty)
                 //    {
-                printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
+                while (DirtyGlassQueue.Count() > 0)
+                {
+                    printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
 
-                DirtyGlassQueue.TryTake(out Glass g);
-                Thread.Sleep(3000);
-                Callback("The waiter picks up a dirty glass and washes it");
-                Thread.Sleep(3000);
-                Callback("The waiter places the clean glass back on the shelf.");
-                CleanGlassQueue.Add(new Glass());
+                    DirtyGlassQueue.TryTake(out Glass g);
+                    Thread.Sleep(3000);
+                    Callback("The waiter picks up a dirty glass and washes it");
+                    Thread.Sleep(3000);
+                    Callback("The waiter places the clean glass back on the shelf.");
+                    CleanGlassQueue.Add(new Glass());
 
-                // printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
-                //    }
-                //}
+                    // printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
+                    //    }
+                    //}
+                }
             }
             Callback("The waiter goes home.");
         }

@@ -42,7 +42,7 @@ namespace Labb6
         {
             while (isBarOpen())
             {
-                while (BartenderQueue.Count() > 0)//(isBarOpen()) 
+                while (BartenderQueue.Count() > 0) 
                 {
                     callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
                     Thread.Sleep(3000);
