@@ -85,20 +85,16 @@ namespace Labb6
         //Printing the labels of guests, clean glasses and empty chairs.
         private void printNumberOfGuests(string text)
         {
-            Dispatcher.Invoke(() =>  { NumberOfGuests.Content = text; });
+            Dispatcher.Invoke(() => { NumberOfGuests.Content = text; });
         }
         private void printNumberOfCleanGlasses(string text)
         {
-            {
-                Dispatcher.Invoke(() => { NumberOfGlasses.Content = text; });
-            }
+            Dispatcher.Invoke(() => { NumberOfGlasses.Content = text; });
         }
 
         private void printNumberOfEmptyChairs(string text)
         {
-            {
-                Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
-            }
+            Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
         private void CreateChairs()      //create chair queue
@@ -127,7 +123,7 @@ namespace Labb6
             CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
-             isBarOpen = true;                //Baren öppnas
+            isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
 
             if (isBarOpen)
@@ -173,6 +169,7 @@ namespace Labb6
             }
         }
 
+        //Button to close the bar.
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;

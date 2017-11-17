@@ -42,16 +42,10 @@ namespace Labb6
 
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
-            // this.Callback = Callback;
-            // this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
             int numberOfGlasses = 21;
 
             while (isBarOpen())
             {
-                //while (CleanGlassQueue.Count() != numberOfGlasses)
-                //{
-                //    if (!DirtyGlassQueue.IsEmpty)
-                //    {
                 while (DirtyGlassQueue.Count() > 0)
                 {
                     printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
@@ -62,10 +56,6 @@ namespace Labb6
                     Thread.Sleep(3000);
                     Callback("The waiter places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
-
-                    // printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
-                    //    }
-                    //}
                 }
             }
             Callback("The waiter goes home.");
