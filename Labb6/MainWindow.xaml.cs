@@ -28,15 +28,17 @@ namespace Labb6
 
         Bouncer bouncer = new Bouncer();
         Bartender bartender = new Bartender();
-        //Waiter waiter = new Waiter();
+        Waiter waiter = new Waiter();
+        Patron patron = new Patron();
 
-        //values to change number ofs.
+        //values to change number of's.
         public bool isBarOpen = false;
         public bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
         int numberofChairs = 5;
 
+        //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
         BlockingCollection<Chair> AvailableChairQueue = new BlockingCollection<Chair>();
@@ -48,6 +50,7 @@ namespace Labb6
             InitializeComponent();
         }
 
+        //Prints info in listboxes of Patron, Waiter and Bartender.
         private void printBouncerInfo(string bInfo)
         {
             Dispatcher.Invoke(() =>
@@ -79,15 +82,23 @@ namespace Labb6
             });
         }
 
+        //Printing the labels of guests, clean glasses and empty chairs.
         private void printNumberOfGuests(string text)
         {
-            Dispatcher.Invoke(() =>
-            { NumberOfGuests.Content = text; });
+            Dispatcher.Invoke(() =>  { NumberOfGuests.Content = text; });
         }
         private void printNumberOfCleanGlasses(string text)
         {
-            Dispatcher.Invoke(() =>
-            { NumberOfGlasses.Content = text; });
+            {
+                Dispatcher.Invoke(() => { NumberOfGlasses.Content = text; });
+            }
+        }
+
+        private void printNumberOfEmptyChairs(string text)
+        {
+            {
+                Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
+            }
         }
 
         private void CreateChairs()      //create chair queue
@@ -107,6 +118,7 @@ namespace Labb6
             }
         }
 
+        //Tasks of Boucer, Bartender, Waiter and Patron.
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
@@ -115,7 +127,7 @@ namespace Labb6
             CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
-            isBarOpen = true;                //Baren öppnas
+             isBarOpen = true;                //Baren öppnas
             stillGuestsInBar = true;         //Det finns gäster i baren
 
             if (isBarOpen)
@@ -145,13 +157,14 @@ namespace Labb6
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
-             //   Patron patron = new Patron();
+                Patron patron = new Patron(AvailableChairQueue, DirtyGlassQueue);
+                patron.isBarOpen = () => isBarOpen;
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
-               // Task.Run(() => patron.PatronFoundChair(callback, dirtyGlassQueue, availableChairQueue, patronQueue));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
 
                 if (!stillGuestsInBar)
                 {

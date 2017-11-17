@@ -24,6 +24,12 @@ namespace Labb6
 
         public Patron() { }
 
+        public Patron(BlockingCollection<Chair> availableChairQueue, BlockingCollection<Glass> dirtyGlassQueue)
+        {
+            this.availableChairQueue = availableChairQueue;
+            this.DirtyGlassQueue = dirtyGlassQueue;
+        }
+
         private BlockingCollection<Patron> patronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Chair> availableChairQueue;
@@ -37,17 +43,20 @@ namespace Labb6
 
             while (isBarOpen())
             {
-                hasBeer = PatronQueue.FirstOrDefault();
-                PatronQueue.Take();
-                callback($"{hasBeer} looks for an available chair.");
-                Thread.Sleep(4000);
-                availableChairQueue.TryTake(out Chair chair);
-                printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
-                callback($"{hasBeer} sits down on a chair.");
-                Thread.Sleep(10000);
-                callback($"{hasBeer} leaves the bar.");
-                availableChairQueue.Add(new Chair());
-                DirtyGlassQueue.Add(new Glass());
+                //while (availableChairQueue.Count() > 0)
+                //{
+                    hasBeer = PatronQueue.FirstOrDefault();
+                    PatronQueue.Take();
+                    callback($"{hasBeer} looks for an available chair.");
+                    Thread.Sleep(4000);
+                    availableChairQueue.TryTake(out Chair chair);
+                    printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
+                    callback($"{hasBeer} sits down on a chair.");
+                    Thread.Sleep(10000);
+                    callback($"{hasBeer} leaves the bar.");
+                    availableChairQueue.Add(new Chair());
+                    DirtyGlassQueue.Add(new Glass());
+               // }
             }
         }
     }

@@ -36,6 +36,10 @@ namespace Labb6
             this.CleanGlassQueue = CleanGlassQueue;
         }
 
+        public Waiter()
+        {
+        }
+
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
             // this.Callback = Callback;
