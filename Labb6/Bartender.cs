@@ -23,7 +23,7 @@ namespace Labb6
         BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
-      //  public bool isBarOpen = false;
+        //  public bool isBarOpen = false;
         bool stillGuestsInBar = false;
 
         int numberofGlasses = 20;
@@ -40,16 +40,19 @@ namespace Labb6
 
         public void PourBeer(Action<string> callback)
         {
-            while (isBarOpen()) 
+            while (isBarOpen())
             {
-                callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
-                Thread.Sleep(3000);
-                callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
-                Thread.Sleep(3000);
-                BartenderQueue.Take();     //trytake???
+                while (BartenderQueue.Count() > 0)//(isBarOpen()) 
+                {
+                    callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
+                    Thread.Sleep(3000);
+                    callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
+                    Thread.Sleep(3000);
+                    BartenderQueue.Take();     //trytake???
 
-                BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);
-                CleanGlassQueue.TryTake(out Glass g);
+                  //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);
+                    CleanGlassQueue.TryTake(out Glass g);
+                }
             }
             callback("The bartender goes home.");
             //bartender går hem
