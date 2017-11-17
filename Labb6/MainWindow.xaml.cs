@@ -24,7 +24,7 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
-        CancellationTokenSource cts = new CancellationTokenSource(); //property för att stoppa trådar.
+        CancellationTokenSource cts = new CancellationTokenSource(); 
 
         Bouncer bouncer = new Bouncer();
         Bartender bartender = new Bartender();
@@ -33,7 +33,6 @@ namespace Labb6
 
         //values to change number of's.
         public bool isBarOpen = false;
-        public bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
         int numberofChairs = 5;
@@ -51,35 +50,21 @@ namespace Labb6
         }
 
         //Prints info in listboxes of Patron, Waiter and Bartender.
-        private void printBouncerInfo(string bInfo)
+        private void printBouncerInfo(string bouncerInfo)
         {
-            Dispatcher.Invoke(() =>
-            {
-                BouncerListBox.Items.Insert(0, bInfo);
-            });
+            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, bouncerInfo); });
         }
         private void printPatronInfo(string patronInfo)
         {
-            Dispatcher.Invoke(() =>
-            {
-                BouncerListBox.Items.Insert(0, patronInfo);
-            });
+            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, patronInfo); });
         }
-
         private void printWaiterInfo(string waiterInfo)
         {
-            Dispatcher.Invoke(() =>
-            {
-                WaiterListBox.Items.Insert(0, waiterInfo);
-            });
+            Dispatcher.Invoke(() => { WaiterListBox.Items.Insert(0, waiterInfo); });
         }
-
-        private void printBartenderInfo(string barInfo)
+        private void printBartenderInfo(string bartenderInfo)
         {
-            Dispatcher.Invoke(() =>
-            {
-                BartenderListBox.Items.Insert(0, barInfo);
-            });
+            Dispatcher.Invoke(() => { BartenderListBox.Items.Insert(0, bartenderInfo); });
         }
 
         //Printing the labels of guests, clean glasses and empty chairs.
@@ -91,26 +76,24 @@ namespace Labb6
         {
             Dispatcher.Invoke(() => { NumberOfGlasses.Content = text; });
         }
-
         private void printNumberOfEmptyChairs(string text)
         {
             Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
-        private void CreateChairs()      //create chair queue
+        //Creating chairs and glasses queues.    BEHÖVER VI DESSA?
+        private void CreateChairs()
         {
             for (int i = 0; i < numberofChairs; i++)
             {
                 AvailableChairQueue.Add(new Chair());
             }
         }
-
         private void CreateGlasses()
         {
             for (int i = 0; i < numberofGlasses; i++)
             {
                 CleanGlassQueue.Add(new Glass());
-                Console.WriteLine("added a glass to queue.");
             }
         }
 
@@ -118,35 +101,19 @@ namespace Labb6
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
+            CreateChairs();
 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;
 
             OpenButton.IsEnabled = false;
             isBarOpen = true;                //Baren öppnas
-            stillGuestsInBar = true;         //Det finns gäster i baren
 
             if (isBarOpen)
             {
                 Bouncer bouncer = new Bouncer(BartenderQueue);
                 bouncer.isBarOpen = () => isBarOpen;
-                //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
-                //Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
 
-                Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
-
-                //Task.Run(() => bartender.PourBeer(printBartenderInfo));
-
-                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
-
-                if (!isBarOpen)
-                {
-                    cts.Cancel();
-                }
-            }
-
-            if (stillGuestsInBar == true) //dvs när patronQueue är tom ska denna bli false.
-            {
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
                 bartender.isBarOpen = () => isBarOpen;
 
@@ -156,17 +123,42 @@ namespace Labb6
                 Patron patron = new Patron(AvailableChairQueue, DirtyGlassQueue);
                 patron.isBarOpen = () => isBarOpen;
 
+                Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
+
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
                 Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
 
-                if (!stillGuestsInBar)
+                if (!isBarOpen)
                 {
                     cts.Cancel();
                 }
             }
+
+            //if (stillGuestsInBar == true/* && PubQueue.Count() > 0*/) //dvs när patronQueue är tom ska denna bli false.
+            //{
+            //    //Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                //bartender.isBarOpen = () => isBarOpen;
+
+                //Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
+                //waiter.isBarOpen = () => isBarOpen;
+
+                //Patron patron = new Patron(AvailableChairQueue, DirtyGlassQueue);
+                //patron.isBarOpen = () => isBarOpen;
+
+                //Task.Run(() => bartender.PourBeer(printBartenderInfo));
+
+                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
+                //Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
+
+                //if (!stillGuestsInBar)
+                //{
+                //    cts.Cancel();
+                //}
+            //}
         }
 
         //Button to close the bar.

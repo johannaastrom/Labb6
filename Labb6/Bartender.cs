@@ -24,7 +24,6 @@ namespace Labb6
 
         public Func<bool> isBarOpen { get; set; }
         //  public bool isBarOpen = false;
-        bool stillGuestsInBar = false;
 
         int numberofGlasses = 20;
 
@@ -51,37 +50,11 @@ namespace Labb6
                     BartenderQueue.Take();     //trytake???
                     CleanGlassQueue.TryTake(out Glass g);
 
-                    //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue); 
+                    //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);     BEHÖVS DETTA?
                 }
             }
-            callback("The bartender goes home.");
-            //bartender går hem
-
-            #region gammal kod
-            //Queue<Glass> glassQueue = new Queue<Glass>();
-            //for (int i = 0; i < numberofGlasses; i++)
-            //{
-            //    glassQueue.Enqueue(newGlass);
-            //}
-            //if(glassQueue.Count > 0)
-            //{
-            //    glassQueue.Dequeue();
-            //    callback("Takes a glass from the shelf");
-            //    Thread.Sleep(3000);
-            //    callback("Pours a glass of beer");
-            //    newGlass.isGlassEmpty = false;
-            //    Thread.Sleep(3000);
-            //}
-            //else if(glassQueue.Count == 0)
-            //{
-            //    Thread.Sleep(3000);
-            //}
-            #endregion
-
+            if (!isBarOpen())
+                callback("The bartender goes home.");
         }
-        //public void Close()
-        //{
-        //    isBarOpen = false;
-        //}
     }
 }

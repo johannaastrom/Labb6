@@ -33,11 +33,10 @@ namespace Labb6
             this.BartenderQueue = barqueue;
         }
 
-        public Bouncer()
-        {
-        }
+        public Bouncer() { }
 
-        public Patron CreateGuest() //Creates guests by random time and name from list
+        //Creates patrons by random time and name from list
+        public Patron CreatePatron() 
         {
             List<string> guestList = new List<string>();
             guestList.Add("KulmageKarl");
@@ -81,16 +80,17 @@ namespace Labb6
             return patron;
         }
 
-        public void Work(Action<string> callback, Action<string> printNumberOfGuests) //creates a guest
+        //Creates a patron
+        public void Work(Action<string> callback, Action<string> printNumberOfGuests) 
         {
             Random rTime = new Random();
             int numberOfGuests = 0;
            
             while (isBarOpen())
             {
-                    Patron p = CreateGuest();
+                    Patron p = CreatePatron();
                     callback($"{p.Name} gets into the bar.");
-                    BartenderQueue.Add(p); //Guest goes to the bar.
+                    BartenderQueue.Add(p); //Patron goes to the bar.
                     int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
                     Thread.Sleep(randomTimePosition);
 

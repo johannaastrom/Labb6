@@ -21,9 +21,6 @@ namespace Labb6
         BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
-        // public bool isBarOpen = false;
-        //bool stillGuestsInBar = false;
-        // public int numberOfGlasses = 20;
 
         public Waiter(BlockingCollection<Glass> DirtyGlassQueue)
         {
@@ -58,7 +55,8 @@ namespace Labb6
                     CleanGlassQueue.Add(new Glass());
                 }
             }
-            Callback("The waiter goes home.");
+            if (!isBarOpen())
+                Callback("The waiter goes home.");
         }
 
     }
