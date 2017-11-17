@@ -42,9 +42,9 @@ namespace Labb6
             {
                 while (AvailableChairQueue.Count() > 0)
                 {
-                    hasBeer = PatronQueue.FirstOrDefault();
-                    PatronQueue.TryTake(out string str);
-                    callback($"{hasBeer} looks for an available chair.");
+                    hasBeer = PatronQueue.FirstOrDefault(); //detta ska förmodligen bort och bytas ut mot kön "patronQueue".
+                    PatronQueue.TryTake(out string str);  //samma här
+                    callback($"{hasBeer} looks for an available chair.");//Print out names.
                     Thread.Sleep(2000);
                     AvailableChairQueue.TryTake(out Chair chair);
                     printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
