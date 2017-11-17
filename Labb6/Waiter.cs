@@ -19,7 +19,6 @@ namespace Labb6
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
-       // private BlockingCollection<Glass> dirtyGlassQueue;
         BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
@@ -50,9 +49,9 @@ namespace Labb6
                 //    if (!DirtyGlassQueue.IsEmpty)
                 //    {
                         DirtyGlassQueue.TryTake(out Glass g);
-                        Thread.Sleep(10000);
+                        Thread.Sleep(3000);
                         Callback("The waiter  picks up a glass and washes it");
-                        Thread.Sleep(15000);
+                        Thread.Sleep(3000);
                         Callback("The waiter places the clean glass back on the shelf.");
                         CleanGlassQueue.Add(new Glass());
 
