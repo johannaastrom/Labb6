@@ -87,7 +87,7 @@ namespace Labb6
         private void printNumberOfCleanGlasses(string text)
         {
             Dispatcher.Invoke(() =>
-            { NumberOfGuests.Content = text; });
+            { NumberOfGlasses.Content = text; });
         }
 
         private void CreateChairs()      //create chair queue
@@ -145,9 +145,13 @@ namespace Labb6
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
+             //   Patron patron = new Patron();
+
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
+               // Task.Run(() => patron.PatronFoundChair(callback, dirtyGlassQueue, availableChairQueue, patronQueue));
 
                 if (!stillGuestsInBar)
                 {

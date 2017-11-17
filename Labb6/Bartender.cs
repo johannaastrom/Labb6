@@ -49,9 +49,9 @@ namespace Labb6
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                     Thread.Sleep(3000);
                     BartenderQueue.Take();     //trytake???
-
-                  //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);
                     CleanGlassQueue.TryTake(out Glass g);
+
+                    //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue); 
                 }
             }
             callback("The bartender goes home.");

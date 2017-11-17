@@ -23,8 +23,8 @@ namespace Labb6
 
         public Func<bool> isBarOpen { get; set; }
         // public bool isBarOpen = false;
-        bool stillGuestsInBar = false;
-        public int numberOfGlasses = 20;
+        //bool stillGuestsInBar = false;
+        // public int numberOfGlasses = 20;
 
         public Waiter(BlockingCollection<Glass> dirtyGlassQueue)
         {
@@ -39,8 +39,9 @@ namespace Labb6
 
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
-            this.Callback = Callback;
-            this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
+            // this.Callback = Callback;
+            // this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
+            int numberOfGlasses = 21;
 
             while (isBarOpen())
             {
@@ -48,14 +49,16 @@ namespace Labb6
                 //{
                 //    if (!DirtyGlassQueue.IsEmpty)
                 //    {
-                        DirtyGlassQueue.TryTake(out Glass g);
-                        Thread.Sleep(3000);
-                        Callback("The waiter  picks up a glass and washes it");
-                        Thread.Sleep(3000);
-                        Callback("The waiter places the clean glass back on the shelf.");
-                        CleanGlassQueue.Add(new Glass());
+                printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
 
-                        printNumberOfCleanGlasses("Number of empty glasses: " + ++numberOfGlasses);
+                DirtyGlassQueue.TryTake(out Glass g);
+                Thread.Sleep(3000);
+                Callback("The waiter picks up a dirty glass and washes it");
+                Thread.Sleep(3000);
+                Callback("The waiter places the clean glass back on the shelf.");
+                CleanGlassQueue.Add(new Glass());
+
+                // printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 //    }
                 //}
             }
