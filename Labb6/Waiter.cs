@@ -16,24 +16,26 @@ namespace Labb6
     {
         private Action<string> Callback;
         private Action<string> printNumberOfCleanGlasses;
-        private ConcurrentStack<Glass> DirtyGlassQueue;
+        private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
-        private BlockingCollection<Glass> dirtyGlassQueue;
+       // private BlockingCollection<Glass> dirtyGlassQueue;
+        BlockingCollection<Patron> PubQueue;
 
-        public bool isBarOpen = false;
+        public Func<bool> isBarOpen { get; set; }
+        // public bool isBarOpen = false;
         bool stillGuestsInBar = false;
         public int numberOfGlasses = 20;
-       
-        public Waiter(ConcurrentStack<Glass> dirtyGlassQueue)
+
+        public Waiter(BlockingCollection<Glass> dirtyGlassQueue)
         {
             this.DirtyGlassQueue = dirtyGlassQueue;
         }
 
-        public Waiter(BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Glass> cleanGlassQueue)
+        public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue)
         {
-            this.dirtyGlassQueue = dirtyGlassQueue;
-            CleanGlassQueue = cleanGlassQueue;
+            this.DirtyGlassQueue = DirtyGlassQueue;
+            this.CleanGlassQueue = CleanGlassQueue;
         }
 
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
@@ -41,31 +43,25 @@ namespace Labb6
             this.Callback = Callback;
             this.printNumberOfCleanGlasses = printNumberOfCleanGlasses;
 
-            Task.Run(() =>
+            while (isBarOpen())
             {
-                while (isBarOpen)
-                {
-                    while (CleanGlassQueue.Count() != numberOfGlasses)
-                    {
-                        if (!DirtyGlassQueue.IsEmpty)
-                        {
-                            DirtyGlassQueue.TryPop(out Glass g);
-                            Thread.Sleep(10000);
-                            Callback("The waiter  picks up a glass and washes it");
-                            Thread.Sleep(15000);
-                            Callback("The waiter places the clean glass back on the shelf.");
-                            CleanGlassQueue.Add(new Glass());
+                //while (CleanGlassQueue.Count() != numberOfGlasses)
+                //{
+                //    if (!DirtyGlassQueue.IsEmpty)
+                //    {
+                        DirtyGlassQueue.TryTake(out Glass g);
+                        Thread.Sleep(10000);
+                        Callback("The waiter  picks up a glass and washes it");
+                        Thread.Sleep(15000);
+                        Callback("The waiter places the clean glass back on the shelf.");
+                        CleanGlassQueue.Add(new Glass());
 
-                            printNumberOfCleanGlasses("Number of empty glasses: " + ++numberOfGlasses);
-                        }
-                    }
-                }
-                Callback("The waiter goes HOME.");
-            });
+                        printNumberOfCleanGlasses("Number of empty glasses: " + ++numberOfGlasses);
+                //    }
+                //}
+            }
+            Callback("The waiter goes home.");
         }
-        public void Close()
-        {
-            isBarOpen = false;
-        }
+
     }
 }

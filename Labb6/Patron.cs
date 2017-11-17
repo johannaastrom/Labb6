@@ -13,6 +13,7 @@ namespace Labb6
         bool stillGuestsInBar;
         public string Name { get; set; }
         BlockingCollection<string> PatronQueue = new BlockingCollection<string>();
+        BlockingCollection<Patron> PubQueue;
 
         public Patron(string name)
         {

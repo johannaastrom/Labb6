@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb6"
         mc:Ignorable="d"
-        Title="MainWindow" Height="384.919" Width="1056.903">
+        Title="MainWindow" Height="581.042" Width="1056.903">
     <Grid x:Name="Close">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="407*"/>
+            <ColumnDefinition Width="643*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="1"/>
@@ -14,21 +18,21 @@
                 <GradientStop Color="#FFF0F7F0" Offset="0.981"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="171" Margin="16,92,0,0" VerticalAlignment="Top" Width="208"/>
-        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="171" Margin="241,92,0,0" VerticalAlignment="Top" Width="207"/>
-        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="171" Margin="462,92,0,0" VerticalAlignment="Top" Width="214"/>
-        <Label x:Name="BartenderLabel" Content="Bartender actions" HorizontalAlignment="Left" Margin="41,52,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label x:Name="BouncerLabel" Content="Patron actions" HorizontalAlignment="Left" Margin="462,52,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="729,108,-17.6,0" VerticalAlignment="Top" Width="339"/>
-        <Label x:Name="NumberOfGlasses" Content="Number of empty glasses" HorizontalAlignment="Left" Margin="729,139,-17.6,0" VerticalAlignment="Top" Width="339"/>
-        <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="729,181,-17.6,0" VerticalAlignment="Top" Width="339"/>
-        <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="41,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
-        <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="250,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
-        <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="462,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
-        <Button x:Name="OpenButton" Content="Open Bar" HorizontalAlignment="Left" Margin="41,19,0,0" VerticalAlignment="Top" Width="263" Height="28" Background="#FF57DA25" Click="OpenButton_Click"/>
-        <Button x:Name="StopButton" Content="STOP THREADS!" HorizontalAlignment="Left" Margin="676,293,0,0" VerticalAlignment="Top" Width="170" Background="#FFE51212" BorderBrush="#FFEE1616" FontWeight="Bold" Click="StopButton_Click"/>
-        <Button x:Name="CloseButton" Content="Close Bar" HorizontalAlignment="Left" Margin="362,19,0,0" VerticalAlignment="Top" Width="270" Height="28" Click="CloseButton_Click"/>
+        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="280" Margin="41,117,0,0" VerticalAlignment="Top" Width="295"/>
+        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="280" Margin="373,117,0,0" VerticalAlignment="Top" Width="295" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="280" Margin="304.8,117,0,0" VerticalAlignment="Top" Width="295" Grid.Column="1"/>
+        <Label x:Name="BartenderLabel" Content="Bartender actions" HorizontalAlignment="Left" Margin="41,86,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="373,86,0,0" VerticalAlignment="Top" Width="170" Grid.ColumnSpan="2"/>
+        <Label x:Name="BouncerLabel" Content="Patron actions" HorizontalAlignment="Left" Margin="304.8,86,0,0" VerticalAlignment="Top" Width="170" Grid.Column="1"/>
+        <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="360.8,462,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
+        <Label x:Name="NumberOfGlasses" Content="Number of empty glasses" HorizontalAlignment="Left" Margin="9.8,462,0,0" VerticalAlignment="Top" Width="198" Grid.Column="1"/>
+        <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="360.8,488,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
+        <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="98,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
+        <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="9.8,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD" Grid.Column="1"/>
+        <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="360.8,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD" Grid.Column="1"/>
+        <Button x:Name="OpenButton" Content="Open Bar" HorizontalAlignment="Left" Margin="41,24,0,0" VerticalAlignment="Top" Width="263" Height="37" Background="#FF57DA25" Click="OpenButton_Click"/>
+        <Button x:Name="StopButton" Content="STOP THREADS!" HorizontalAlignment="Left" Margin="304.8,24,0,0" VerticalAlignment="Top" Width="263" Background="#FFE51212" BorderBrush="#FFEE1616" FontWeight="Bold" Click="StopButton_Click" Grid.Column="1" Height="37"/>
+        <Button x:Name="CloseButton" Content="Close Bar" HorizontalAlignment="Left" Margin="373,24,0,0" VerticalAlignment="Top" Width="270" Height="37" Click="CloseButton_Click" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

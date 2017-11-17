@@ -20,8 +20,10 @@ namespace Labb6
         private BlockingCollection<Chair> AvailableChairQueue;
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
+        BlockingCollection<Patron> PubQueue;
 
-        public bool isBarOpen = false;
+        public Func<bool> isBarOpen { get; set; }
+      //  public bool isBarOpen = false;
         bool stillGuestsInBar = false;
 
         int numberofGlasses = 20;
@@ -38,11 +40,9 @@ namespace Labb6
 
         public void PourBeer(Action<string> callback)
         {
-            stillGuestsInBar = true;
-
-            while (stillGuestsInBar)
+            while (isBarOpen()) 
             {
-                callback($"Gets a glass");
+                callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
                 Thread.Sleep(3000);
                 callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                 Thread.Sleep(3000);
@@ -51,10 +51,8 @@ namespace Labb6
                 BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);
                 CleanGlassQueue.TryTake(out Glass g);
             }
-
+            callback("The bartender goes home.");
             //bartender går hem
-            callback("Bartender goes HOME");
-
 
             #region gammal kod
             //Queue<Glass> glassQueue = new Queue<Glass>();
@@ -78,9 +76,9 @@ namespace Labb6
             #endregion
 
         }
-        public void Close()
-        {
-            isBarOpen = false;
-        }
+        //public void Close()
+        //{
+        //    isBarOpen = false;
+        //}
     }
 }

@@ -28,10 +28,11 @@ namespace Labb6
 
         Bouncer bouncer = new Bouncer();
         Bartender bartender = new Bartender();
-        //   Waiter waiter = new Waiter();
+        //Waiter waiter = new Waiter();
 
+        //values to change number ofs.
         public bool isBarOpen = false;
-       public bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
+        public bool stillGuestsInBar = false; //sätts till true när den första gästen kommer och sätts till false när den sista gästen går
         int numberofGuests;
         int numberofGlasses = 20;
         int numberofChairs = 5;
@@ -40,7 +41,7 @@ namespace Labb6
         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
         BlockingCollection<Chair> AvailableChairQueue = new BlockingCollection<Chair>();
         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
-        BlockingCollection<Patron> PatronQueue = new BlockingCollection<Patron>();
+        BlockingCollection<Patron> PubQueue = new BlockingCollection<Patron>();
 
         public MainWindow()
         {
@@ -54,6 +55,13 @@ namespace Labb6
                 BouncerListBox.Items.Insert(0, bInfo);
             });
         }
+        private void printPatronInfo(string patronInfo)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                BouncerListBox.Items.Insert(0, patronInfo);
+            });
+        }
 
         private void printWaiterInfo(string waiterInfo)
         {
@@ -61,15 +69,6 @@ namespace Labb6
             {
                 WaiterListBox.Items.Insert(0, waiterInfo);
             });
-
-            if (!stillGuestsInBar)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    WaiterListBox.Items.Insert(0, "Waiter goes home");
-                    // gör så att waiterns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "waiter goes home" efter varje).
-                });
-            }
         }
 
         private void printBartenderInfo(string barInfo)
@@ -78,15 +77,6 @@ namespace Labb6
             {
                 BartenderListBox.Items.Insert(0, barInfo);
             });
-
-            if (!stillGuestsInBar)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    BartenderListBox.Items.Insert(0, "Bartender goes home");
-                    // gör så att bartenderns tråd avslutas (nu fortsätter den släppa in folk och skriver ut "bartender goes home" efter varje).
-                });
-            }
         }
 
         private void printNumberOfGuests(string text)
@@ -140,17 +130,20 @@ namespace Labb6
                 //Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
                 //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
                 if (!isBarOpen)
                 {
                     cts.Cancel();
                 }
             }
 
-
             if (stillGuestsInBar == true) //dvs när patronQueue är tom ska denna bli false.
             {
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                bartender.isBarOpen = () => isBarOpen;
+
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue);
+                waiter.isBarOpen = () => isBarOpen;
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
@@ -166,11 +159,6 @@ namespace Labb6
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             isBarOpen = false;
-            //if (!isBarOpen)
-            //{
-            //    BouncerListBox.Items.Insert(0, "Bouncer goes home.");
-            //    cts.Cancel();
-            //}
             OpenButton.IsEnabled = true;
         }
 

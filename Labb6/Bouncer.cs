@@ -17,8 +17,6 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 
 
-//Inkastaren släpper in kunder slumpvis, efter tre till tio sekunder. Inkastaren kontrollerar leg, så att alla i baren kan veta vad kunden heter. (Slumpa ett namn åt nya kunder från en lista) Inkastaren slutar släppa in nya kunder när baren stänger och går hem direkt.
-
 namespace Labb6
 {
     public class Bouncer
@@ -26,6 +24,7 @@ namespace Labb6
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
+        BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
 
@@ -51,7 +50,7 @@ namespace Labb6
             guestList.Add("OnyktreOlle");
             guestList.Add("GalneGunnar");
             guestList.Add("Johan");
-            guestList.Add("Anders");
+            guestList.Add("AlagarAnders");
             guestList.Add("Erik");
             guestList.Add("ElakaElin");
             guestList.Add("Molly");
@@ -81,6 +80,7 @@ namespace Labb6
 
             return patron;
         }
+
         public void Work(Action<string> callback, Action<string> printNumberOfGuests) //creates a guest
         {
             Random rTime = new Random();
@@ -95,7 +95,6 @@ namespace Labb6
                     Thread.Sleep(randomTimePosition);
 
                     printNumberOfGuests("Number of guests: " + ++numberOfGuests);
-
             }
             if (!isBarOpen())
                 callback("The bouncer goes home.");
