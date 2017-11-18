@@ -29,10 +29,11 @@ namespace Labb6
             this.DirtyGlassQueue = DirtyGlassQueue;
         }
 
-        public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue)
+        public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue, BlockingCollection<Patron> BartenderQueue)
         {
             this.DirtyGlassQueue = DirtyGlassQueue;
             this.CleanGlassQueue = CleanGlassQueue;
+            this.BartenderQueue = BartenderQueue;
         }
 
         public Waiter() { }
@@ -41,36 +42,32 @@ namespace Labb6
         {
             int numberOfGlasses = 21;
 
-            while (isBarOpen())
+            while (isBarOpen() || BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0)
             {
-                //while (AvailableChairQueue.Count() > 0)
-                //{
-                //while (DirtyGlassQueue.Count() > 0)
-                //{
-                DirtyGlassQueue.TryTake(out Glass g);
-                Thread.Sleep(2000);
-                Callback("Picks up a dirty glass and washes it");
-                Thread.Sleep(2000);
-                Callback("Places the clean glass back on the shelf.");
-                CleanGlassQueue.Add(new Glass());
-                ++numberOfGlasses;
-
-                printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
-                // }
-                //}
-            }
-            if (!isBarOpen())
-                while (BartenderQueue.Count() > 0)
+                if (DirtyGlassQueue.TryTake(out Glass g))
                 {
-                    DirtyGlassQueue.TryTake(out Glass g);
-                    Thread.Sleep(2000);
                     Callback("Picks up a dirty glass and washes it");
                     Thread.Sleep(2000);
                     Callback("Places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
                     ++numberOfGlasses;
+                    Thread.Sleep(2000);
+
+                    printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 }
-                Callback("The waiter goes home.");
+            }
+            // if (!isBarOpen())
+            //while (BartenderQueue.Count() > 0)
+            //{
+            //    DirtyGlassQueue.TryTake(out Glass g);
+            //    Thread.Sleep(2000);
+            //    Callback("Picks up a dirty glass and washes it");
+            //    Thread.Sleep(2000);
+            //    Callback("Places the clean glass back on the shelf.");
+            //    CleanGlassQueue.Add(new Glass());
+            //    ++numberOfGlasses;
+            //}
+            Callback("The waiter goes home.");
         }
     }
 }
