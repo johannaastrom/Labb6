@@ -40,14 +40,16 @@ namespace Labb6
         {
             while (isBarOpen())
             {
-                while (BartenderQueue.Count() > 0) 
+                while (BartenderQueue.Count() > 0)
                 {
                     callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
                     Thread.Sleep(3000);
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                     Thread.Sleep(3000);
-                    BartenderQueue.TryTake(out Patron p);
-                    CleanGlassQueue.TryTake(out Glass g);
+                    if (BartenderQueue.TryTake(out Patron p))
+                        --numberofGlasses;
+                    if (CleanGlassQueue.TryTake(out Glass g))
+                        ++numberofGlasses;
 
                     //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);     BEHÖVS DETTA?
                 }

@@ -81,7 +81,7 @@ namespace Labb6
             Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
-        //Creating chairs and glasses queues.             BEHÖVS DESSA TVÅ METODER?
+        //Creating chairs and glasses queues.
         private void CreateChairs()
         {
             for (int i = 0; i < numberofChairs; i++)

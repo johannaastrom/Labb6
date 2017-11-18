@@ -39,19 +39,21 @@ namespace Labb6
             int numberOfChairs = 21;
 
             while (isBarOpen())
-            {
+            { 
                 while (AvailableChairQueue.Count() > 0)
                 {
                     hasBeer = PatronQueue.FirstOrDefault(); //detta ska förmodligen bort och bytas ut mot kön "patronQueue".
                     PatronQueue.TryTake(out string str);  //samma här
                     callback($"{hasBeer} looks for an available chair.");//Print out names.
                     Thread.Sleep(2000);
-                    AvailableChairQueue.TryTake(out Chair chair);
+                    if (AvailableChairQueue.TryTake(out Chair chair))
+                        --numberOfChairs;
                     printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
-                    callback($"{hasBeer} sits down on a chair.");
+                    callback($"{hasBeer} sits down on a chair and drinks the beer.");
                     Thread.Sleep(2000);
                     callback($"{hasBeer} leaves the bar.");
                     AvailableChairQueue.Add(new Chair());
+                    ++numberOfChairs;
                     DirtyGlassQueue.Add(new Glass());
                 }
             }
