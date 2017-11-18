@@ -26,9 +26,7 @@ namespace Labb6
 
         int numberofGlasses = 20;
 
-        public Bartender()
-        {
-        }
+        public Bartender() { }
 
         public Bartender(BlockingCollection<Patron> bartenderQueue, BlockingCollection<Glass> CleanGlassQueue)
         {

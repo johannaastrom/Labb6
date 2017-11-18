@@ -97,7 +97,7 @@ namespace Labb6
             }
         }
 
-        //Tasks of Boucer, Bartender, Waiter and Patron.
+        //Tasks of Bouncer, Bartender, Waiter and Patron.
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();

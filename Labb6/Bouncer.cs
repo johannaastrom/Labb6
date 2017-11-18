@@ -40,7 +40,7 @@ namespace Labb6
         {
             List<string> guestList = new List<string>();
             guestList.Add("KulmageKarl");
-            guestList.Add("GråtfärdigeGreta");
+            guestList.Add("GamleGreta");
             guestList.Add("KarateKarin");
             guestList.Add("HelikopterHerbert");
             guestList.Add("RundaRobin");

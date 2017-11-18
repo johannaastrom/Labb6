@@ -56,17 +56,6 @@ namespace Labb6
                     printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 }
             }
-            // if (!isBarOpen())
-            //while (BartenderQueue.Count() > 0)
-            //{
-            //    DirtyGlassQueue.TryTake(out Glass g);
-            //    Thread.Sleep(2000);
-            //    Callback("Picks up a dirty glass and washes it");
-            //    Thread.Sleep(2000);
-            //    Callback("Places the clean glass back on the shelf.");
-            //    CleanGlassQueue.Add(new Glass());
-            //    ++numberOfGlasses;
-            //}
             Callback("The waiter goes home.");
         }
     }
