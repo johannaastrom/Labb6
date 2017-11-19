@@ -40,7 +40,7 @@ namespace Labb6
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
-        BlockingCollection<Chair> AvailableChairQueue = new BlockingCollection<Chair>();
+        BlockingCollection<Patron> AvailableChairQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
         BlockingCollection<Patron> PubQueue = new BlockingCollection<Patron>();
 
@@ -86,7 +86,7 @@ namespace Labb6
         {
             for (int i = 0; i < numberofChairs; i++)
             {
-                AvailableChairQueue.Add(new Chair());
+                AvailableChairQueue.Add(new Patron());
             }
         }
         private void CreateGlasses()
@@ -114,7 +114,7 @@ namespace Labb6
                 Bouncer bouncer = new Bouncer(BartenderQueue);
                 bouncer.isBarOpen = () => isBarOpen;
 
-                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue);
+                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, AvailableChairQueue);
                 bartender.isBarOpen = () => isBarOpen;
 
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue);
@@ -127,9 +127,10 @@ namespace Labb6
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo));
 
-                Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
-
                 Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
+
+                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
 
                 if (!isBarOpen)
                 {

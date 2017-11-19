@@ -17,7 +17,7 @@ namespace Labb6
     {
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
-        private BlockingCollection<Chair> AvailableChairQueue;
+        private BlockingCollection<Patron> AvailableChairQueue;
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Patron> PubQueue;
@@ -28,10 +28,11 @@ namespace Labb6
 
         public Bartender() { }
 
-        public Bartender(BlockingCollection<Patron> bartenderQueue, BlockingCollection<Glass> CleanGlassQueue)
+        public Bartender(BlockingCollection<Patron> bartenderQueue, BlockingCollection<Glass> CleanGlassQueue, BlockingCollection<Patron> AvailableChairQueue)
         {
             this.BartenderQueue = bartenderQueue;
             this.CleanGlassQueue = CleanGlassQueue;
+            this.AvailableChairQueue = AvailableChairQueue;
         }
 
         public void PourBeer(Action<string> callback)
@@ -40,16 +41,22 @@ namespace Labb6
             {
                 while (BartenderQueue.Count() > 0)
                 {
-                    callback($"Gets a glass for ");/*{((Patron)BartenderQueue.First()).Name}*/
+                    callback($"Gets a glass.");/*{((Patron)BartenderQueue.First()).Name}*/
                     Thread.Sleep(3000);
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                     Thread.Sleep(3000);
                     if (BartenderQueue.TryTake(out Patron p))
+                    {
+                        Patron pp = new Patron();
+                        pp.Name = p.Name;
+                        pp.patronHasBeer = true;
                         --numberofGlasses;
-                    if (CleanGlassQueue.TryTake(out Glass g))
-                        ++numberofGlasses;
+                        AvailableChairQueue.Add(pp); //Patron looks for a chair. 
 
-                    //  BartenderQueue.First().PatronFoundChair(callback, DirtyGlassQueue, AvailableChairQueue, PatronQueue);     BEHÖVS DETTA?
+                        if (CleanGlassQueue.TryTake(out Glass g))
+                            ++numberofGlasses;
+                    }
+                    //BartenderQueue.First().PatronFoundChair(callback, printNumberOfEmptyChairs);    // BEHÖVS DETTA?
                 }
             }
             if (!isBarOpen())

@@ -17,7 +17,7 @@ namespace Labb6
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> PatronQueue;
-        private BlockingCollection<Chair> AvailableChairQueue;
+        private BlockingCollection<Patron> AvailableChairQueue;
         private BlockingCollection<Patron> PubQueue;
         private BlockingCollection<Patron> BartenderQueue;
 
