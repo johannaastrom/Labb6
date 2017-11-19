@@ -12,7 +12,7 @@ namespace Labb6
     {
         public string Name { get; set; }
 
-        private BlockingCollection<Patron> AvailableChairQueue;
+        private BlockingCollection<Patron> LooksForAvailableChairQueue;
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Patron> PubQueue;
         private BlockingCollection<Patron> patronQueue;
@@ -25,19 +25,18 @@ namespace Labb6
 
         public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue)
         {
-            this.AvailableChairQueue = AvailableChairQueue;
+            this.LooksForAvailableChairQueue = AvailableChairQueue;
             this.DirtyGlassQueue = dirtyGlassQueue;
         }
 
-        //the patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
+        //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
         public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs)
         {
             int numberOfChairs = 21;
 
-            while (isBarOpen() || AvailableChairQueue.Count() > 0)
+            while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0)
             {
-                //callback($"{p.Name} looks for an available chair."); //ONÖDIGT?
-                if (AvailableChairQueue.TryTake(out Patron p))
+                if (LooksForAvailableChairQueue.TryTake(out Patron p))
                 {
                     if (numberOfChairs > 0)
                     {
@@ -49,7 +48,7 @@ namespace Labb6
                         DirtyGlassQueue.Add(new Glass());
                     }
                     else
-                        AvailableChairQueue.Add(p);
+                        LooksForAvailableChairQueue.Add(p);
                 }
             }
         }

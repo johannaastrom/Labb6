@@ -33,16 +33,14 @@ namespace Labb6
 
         //values to change number of's.
         public bool isBarOpen = false;
-        int numberofGuests;
         int numberofGlasses = 20;
         int numberofChairs = 10;
 
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
-        BlockingCollection<Patron> AvailableChairQueue = new BlockingCollection<Patron>();
+        BlockingCollection<Patron> LooksForAvailableChairQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
-        BlockingCollection<Patron> PubQueue = new BlockingCollection<Patron>();
 
         public MainWindow()
         {
@@ -81,14 +79,14 @@ namespace Labb6
             Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
-        //Creating chairs and glasses queues.
-        private void CreateChairs()
-        {
-            for (int i = 0; i < numberofChairs; i++)
-            {
-                AvailableChairQueue.Add(new Patron());
-            }
-        }
+        ////Creating chairs and glasses queues.
+        //private void CreateChairs()
+        //{
+        //    for (int i = 0; i < numberofChairs; i++)
+        //    {
+        //        LooksForAvailableChairQueue.Add(new Patron());
+        //    }
+        //}
         private void CreateGlasses()
         {
             for (int i = 0; i < numberofGlasses; i++)
@@ -101,7 +99,7 @@ namespace Labb6
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
-          //  CreateChairs();
+           // CreateChairs();
 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;
@@ -114,13 +112,13 @@ namespace Labb6
                 Bouncer bouncer = new Bouncer(BartenderQueue);
                 bouncer.isBarOpen = () => isBarOpen;
 
-                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, AvailableChairQueue);
+                Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, LooksForAvailableChairQueue);
                 bartender.isBarOpen = () => isBarOpen;
 
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
-                Patron patron = new Patron(AvailableChairQueue, DirtyGlassQueue);
+                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue);
                 patron.isBarOpen = () => isBarOpen;
 
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
@@ -132,7 +130,7 @@ namespace Labb6
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
 
-                if (!isBarOpen)
+                if (!isBarOpen || BartenderQueue.Count == 0 || LooksForAvailableChairQueue.Count == 0)
                 {
                     cts.Cancel();
                 }

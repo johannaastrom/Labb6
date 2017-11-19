@@ -17,7 +17,7 @@ namespace Labb6
     {
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
-        private BlockingCollection<Patron> AvailableChairQueue;
+        private BlockingCollection<Patron> LooksForAvailableChairQueue;
         private BlockingCollection<Patron> PatronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
         private BlockingCollection<Patron> PubQueue;
@@ -32,7 +32,7 @@ namespace Labb6
         {
             this.BartenderQueue = bartenderQueue;
             this.CleanGlassQueue = CleanGlassQueue;
-            this.AvailableChairQueue = AvailableChairQueue;
+            this.LooksForAvailableChairQueue = AvailableChairQueue;
         }
 
         public void PourBeer(Action<string> callback)
@@ -48,7 +48,7 @@ namespace Labb6
                     Patron pp = new Patron();
                     pp.Name = p.Name;
                     --numberofGlasses;
-                    AvailableChairQueue.Add(pp); //Patron looks for a chair. 
+                    LooksForAvailableChairQueue.Add(pp); //Patron looks for a chair. 
 
                     if (CleanGlassQueue.TryTake(out Glass g))
                         ++numberofGlasses;
