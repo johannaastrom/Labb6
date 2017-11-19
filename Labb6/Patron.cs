@@ -36,8 +36,7 @@ namespace Labb6
 
             while (isBarOpen() || AvailableChairQueue.Count() > 0)
             {
-                //callback($"{hasBeer} looks for an available chair.");//Print out names here.
-                //Thread.Sleep(2000);
+                //callback($"{p.Name} looks for an available chair."); //ONÖDIGT?
                 if (AvailableChairQueue.TryTake(out Patron p))
                 {
                     if (numberOfChairs > 0)

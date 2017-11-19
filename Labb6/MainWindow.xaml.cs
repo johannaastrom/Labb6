@@ -129,7 +129,7 @@ namespace Labb6
 
                 Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
 
-                //Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+                Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
 
                 if (!isBarOpen)

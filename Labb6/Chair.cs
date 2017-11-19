@@ -8,6 +8,5 @@ namespace Labb6
 {
     public class Chair
     {
-        public object Name { get; set; }
     }
 }

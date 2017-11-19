@@ -40,7 +40,7 @@ namespace Labb6
 
         public void Work(Action<string> Callback, Action<string> printNumberOfCleanGlasses)
         {
-            int numberOfGlasses = 21;
+            int numberOfGlasses = 20;
 
             while (isBarOpen() || BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0)
             {
