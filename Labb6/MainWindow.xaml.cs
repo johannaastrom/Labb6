@@ -82,13 +82,13 @@ namespace Labb6
         }
 
         //Creating chairs and glasses queues.
-        private void CreateChairs()
-        {
-            for (int i = 0; i < numberofChairs; i++)
-            {
-                AvailableChairQueue.Add(new Patron());
-            }
-        }
+        //private void CreateChairs()
+        //{
+        //    for (int i = 0; i < numberofChairs; i++)
+        //    {
+        //        AvailableChairQueue.Add(new Patron());
+        //    }
+        //}
         private void CreateGlasses()
         {
             for (int i = 0; i < numberofGlasses; i++)
@@ -101,7 +101,7 @@ namespace Labb6
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
-            CreateChairs();
+          //  CreateChairs();
 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;

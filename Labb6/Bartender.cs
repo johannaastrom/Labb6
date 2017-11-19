@@ -37,28 +37,25 @@ namespace Labb6
 
         public void PourBeer(Action<string> callback)
         {
-            while (isBarOpen())
+            while (isBarOpen() || BartenderQueue.Count() > 0)
             {
-                while (BartenderQueue.Count() > 0)
+                callback($"Gets a glass.");/*{((Patron)BartenderQueue.First()).Name}*/
+                Thread.Sleep(3000);
+                callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
+                Thread.Sleep(3000);
+                if (BartenderQueue.TryTake(out Patron p))
                 {
-                    callback($"Gets a glass.");/*{((Patron)BartenderQueue.First()).Name}*/
-                    Thread.Sleep(3000);
-                    callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
-                    Thread.Sleep(3000);
-                    if (BartenderQueue.TryTake(out Patron p))
-                    {
-                        Patron pp = new Patron();
-                        pp.Name = p.Name;
-                        pp.patronHasBeer = true;
-                        --numberofGlasses;
-                        AvailableChairQueue.Add(pp); //Patron looks for a chair. 
+                    Patron pp = new Patron();
+                    pp.Name = p.Name;
+                    --numberofGlasses;
+                    AvailableChairQueue.Add(pp); //Patron looks for a chair. 
 
-                        if (CleanGlassQueue.TryTake(out Glass g))
-                            ++numberofGlasses;
-                    }
-                    //BartenderQueue.First().PatronFoundChair(callback, printNumberOfEmptyChairs);    // BEHÖVS DETTA?
+                    if (CleanGlassQueue.TryTake(out Glass g))
+                        ++numberofGlasses;
                 }
+                //BartenderQueue.First().PatronFoundChair(callback, printNumberOfEmptyChairs);    // BEHÖVS DETTA?
             }
+
             if (!isBarOpen())
                 callback("The bartender goes home.");
         }

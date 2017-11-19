@@ -12,21 +12,14 @@ namespace Labb6
     {
         public string Name { get; set; }
 
-        public string hasBeer { get; set; }
-      //  BlockingCollection<string> PatronQueue = new BlockingCollection<string>();  // VAD ÄR DETTA?
         private BlockingCollection<Patron> AvailableChairQueue;
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Patron> PubQueue;
         private BlockingCollection<Patron> patronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
         public Func<bool> isBarOpen { get; set; }
-        public bool patronHasBeer { get; set; }
 
-        public Patron(string name)
-        {
-            //  PatronQueue.Add(name);
-            this.patronHasBeer = true;
-        }
+        public Patron(string name) { }
 
         public Patron() { }
 
@@ -42,25 +35,21 @@ namespace Labb6
             int numberOfChairs = 21;
 
             while (isBarOpen() || AvailableChairQueue.Count() > 0)
-            { 
-                //    while (AvailableChairQueue.Count() > 0)
-                //    {
-                //hasBeer = PatronQueue.FirstOrDefault(); //detta ska kanske bort och bytas ut mot kön "patronQueue"?
-                //PatronQueue.TryTake(out string str);  //samma här
+            {
                 //callback($"{hasBeer} looks for an available chair.");//Print out names here.
                 //Thread.Sleep(2000);
                 if (AvailableChairQueue.TryTake(out Patron p))
                 {
                     --numberOfChairs;
                     printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
-                    callback($"{((Patron)AvailableChairQueue.First()).Name} sits down on a chair and drinks the beer.");
+                    callback($"{p.Name} sits down on a chair and drinks the beer.");
                     Thread.Sleep(2000);
-                    callback($"{((Patron)AvailableChairQueue.First()).Name} leaves the bar.");
+                    callback($"{p.Name} leaves the bar.");
                     AvailableChairQueue.Add(new Patron());
                     ++numberOfChairs;
                     DirtyGlassQueue.Add(new Glass());
-                    this.patronHasBeer = false;
                 }
+
             }
         }
     }
