@@ -115,7 +115,7 @@ namespace Labb6
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, LooksForAvailableChairQueue);
                 bartender.isBarOpen = () => isBarOpen;
 
-                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue);
+                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue, LooksForAvailableChairQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
                 Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);

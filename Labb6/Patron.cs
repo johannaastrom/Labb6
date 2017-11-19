@@ -14,7 +14,6 @@ namespace Labb6
 
         private BlockingCollection<Patron> LooksForAvailableChairQueue;
         private BlockingCollection<Patron> BartenderQueue;
-        private BlockingCollection<Patron> PubQueue;
         private BlockingCollection<Patron> patronQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
         public Func<bool> isBarOpen { get; set; }
@@ -33,7 +32,7 @@ namespace Labb6
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
         public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs)
         {
-            int numberOfChairs = 21;
+            int numberOfChairs = 20;
 
             while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || BartenderQueue.Count() > 0)
             {
@@ -45,7 +44,7 @@ namespace Labb6
                         printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
                         Thread.Sleep(2000);
                         callback($"{p.Name} leaves the bar.");
-                        ++numberOfChairs;
+                        printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
                         DirtyGlassQueue.Add(new Glass());
                     }
                     else

@@ -18,9 +18,6 @@ namespace Labb6
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> LooksForAvailableChairQueue;
-        private BlockingCollection<Patron> PatronQueue;
-        private BlockingCollection<Glass> DirtyGlassQueue;
-        private BlockingCollection<Patron> PubQueue;
 
         public Func<bool> isBarOpen { get; set; }
 
@@ -43,12 +40,11 @@ namespace Labb6
                 Thread.Sleep(3000);
                 callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} ");
                 Thread.Sleep(3000);
+
                 if (BartenderQueue.TryTake(out Patron p))
                 {
-                    Patron pp = new Patron();
-                    pp.Name = p.Name;
+                    LooksForAvailableChairQueue.Add(p); //Patron looks for a chair. 
                     --numberofGlasses;
-                    LooksForAvailableChairQueue.Add(pp); //Patron looks for a chair. 
 
                     if (CleanGlassQueue.TryTake(out Glass g))
                         ++numberofGlasses;
