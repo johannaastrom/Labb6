@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Timers;
+
 
 namespace Labb6
 {
@@ -24,6 +26,8 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static System.Timers.Timer aTimer;
+
         CancellationTokenSource cts = new CancellationTokenSource();
 
         Bouncer bouncer = new Bouncer();
@@ -98,6 +102,10 @@ namespace Labb6
         //Tasks of Bouncer, Bartender, Waiter and Patron.
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
+            aTimer = new System.Timers.Timer();
+            aTimer.Interval = 120000;
+            aTimer.Enabled = true;
+                
             CreateGlasses();
            // CreateChairs();
 
