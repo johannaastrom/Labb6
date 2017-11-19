@@ -102,7 +102,7 @@ namespace Labb6
         //Tasks of Bouncer, Bartender, Waiter and Patron.
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            aTimer = new System.Timers.Timer();
+            aTimer = new System.Timers.Timer(); //Hur få denna att stanna?
             aTimer.Interval = 120000;
             aTimer.Enabled = true;
                 
