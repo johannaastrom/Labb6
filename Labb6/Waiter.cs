@@ -56,7 +56,9 @@ namespace Labb6
                     printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 }
             }
-            Callback("The waiter goes home.");
+
+            if (!isBarOpen())
+                Callback("The waiter goes home.");
         }
     }
 }

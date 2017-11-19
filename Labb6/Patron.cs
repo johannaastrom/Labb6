@@ -23,10 +23,11 @@ namespace Labb6
 
         public Patron() { }
 
-        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue)
+        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Patron> BartenderQueue)
         {
             this.LooksForAvailableChairQueue = AvailableChairQueue;
             this.DirtyGlassQueue = dirtyGlassQueue;
+            this.BartenderQueue = BartenderQueue;
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
@@ -34,7 +35,7 @@ namespace Labb6
         {
             int numberOfChairs = 21;
 
-            while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0)
+            while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || BartenderQueue.Count() > 0)
             {
                 if (LooksForAvailableChairQueue.TryTake(out Patron p))
                 {
@@ -51,6 +52,7 @@ namespace Labb6
                         LooksForAvailableChairQueue.Add(p);
                 }
             }
+            callback("The bar is now empty.");
         }
     }
 }

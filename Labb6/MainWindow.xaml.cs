@@ -118,7 +118,7 @@ namespace Labb6
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
-                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue);
+                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);
                 patron.isBarOpen = () => isBarOpen;
 
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
@@ -128,7 +128,6 @@ namespace Labb6
                 Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
-
 
                 if (!isBarOpen || BartenderQueue.Count == 0 || LooksForAvailableChairQueue.Count == 0)
                 {
