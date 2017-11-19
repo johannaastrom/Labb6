@@ -35,7 +35,7 @@ namespace Labb6
         public bool isBarOpen = false;
         int numberofGuests;
         int numberofGlasses = 20;
-        int numberofChairs = 5;
+        int numberofChairs = 10;
 
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
@@ -82,13 +82,13 @@ namespace Labb6
         }
 
         //Creating chairs and glasses queues.
-        //private void CreateChairs()
-        //{
-        //    for (int i = 0; i < numberofChairs; i++)
-        //    {
-        //        AvailableChairQueue.Add(new Patron());
-        //    }
-        //}
+        private void CreateChairs()
+        {
+            for (int i = 0; i < numberofChairs; i++)
+            {
+                AvailableChairQueue.Add(new Patron());
+            }
+        }
         private void CreateGlasses()
         {
             for (int i = 0; i < numberofGlasses; i++)
