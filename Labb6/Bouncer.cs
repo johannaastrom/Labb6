@@ -91,7 +91,7 @@ namespace Labb6
                     Patron p = CreatePatron();
                     callback($"{p.Name} gets into the bar.");
                     BartenderQueue.Add(p); //Patron goes to the bar.
-                    int randomTimePosition = rTime.Next(1, 3) * 1000;               //ändra tillbaka till 3, 10 sedan
+                    int randomTimePosition = rTime.Next(3, 10) * 1000;               //ändra tillbaka till 3, 10 sedan
                     Thread.Sleep(randomTimePosition);
 
                     printNumberOfGuests("Number of guests: " + ++numberOfGuests);

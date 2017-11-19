@@ -49,11 +49,11 @@ namespace Labb6
                 {
                     printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                     Callback("Picks up a dirty glass and washes it");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(10000);
                     Callback("Places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
                     printNumberOfCleanGlasses("Number of clean glasses: " + ++numberOfGlasses);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(15000);
                 }
             }
             Thread.Sleep(10000); //Annars går det för fort för honom!
@@ -63,11 +63,11 @@ namespace Labb6
                 {
                     printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                     Callback("Picks up a dirty glass and washes it");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(10000);
                     Callback("Places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
                     printNumberOfCleanGlasses("Number of clean glasses: " + ++numberOfGlasses);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(15000);
                 }
             }
             if (!isBarOpen())
