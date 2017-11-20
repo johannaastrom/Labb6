@@ -11,13 +11,6 @@
             <ColumnDefinition Width="407*"/>
             <ColumnDefinition Width="643*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="Black" Offset="1"/>
-                <GradientStop Color="#FFC2EECF"/>
-                <GradientStop Color="#FFF0F7F0" Offset="0.981"/>
-            </LinearGradientBrush>
-        </Grid.Background>
         <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="280" Margin="41,117,0,0" VerticalAlignment="Top" Width="295"/>
         <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="280" Margin="373,117,0,0" VerticalAlignment="Top" Width="295" Grid.ColumnSpan="2"/>
         <ListBox x:Name="BouncerListBox" HorizontalAlignment="Left" Height="280" Margin="304.8,117,0,0" VerticalAlignment="Top" Width="295" Grid.Column="1"/>

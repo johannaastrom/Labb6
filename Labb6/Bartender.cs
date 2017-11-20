@@ -16,7 +16,7 @@ namespace Labb6
 
         public Func<bool> isBarOpen { get; set; }
 
-        int numberofGlasses = 20;
+        int numberOfGlasses = 20;
 
         public Bartender() { }
 
@@ -27,7 +27,8 @@ namespace Labb6
             this.LooksForAvailableChairQueue = AvailableChairQueue;
         }
 
-        public void PourBeer(Action<string> callback)
+        //Bartender takes a glass from the shelf and pours a beer to patron.
+        public void PourBeer(Action<string> callback, Action<string> printNumberOfCleanGlasses)
         {
             while (isBarOpen() || BartenderQueue.Count() > 0)
             {
@@ -39,10 +40,9 @@ namespace Labb6
                 if (BartenderQueue.TryTake(out Patron p))
                 {
                     LooksForAvailableChairQueue.Add(p); //Patron looks for a chair. 
-                    --numberofGlasses;
 
                     if (CleanGlassQueue.TryTake(out Glass g))
-                        ++numberofGlasses;
+                        printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
                 }
             }
 

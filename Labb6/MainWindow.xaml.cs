@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Concurrent;
-using System.Timers;
 
 
 namespace Labb6
@@ -26,8 +25,6 @@ namespace Labb6
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static System.Timers.Timer aTimer;
-
         CancellationTokenSource cts = new CancellationTokenSource();
 
         Bouncer bouncer = new Bouncer();
@@ -38,7 +35,6 @@ namespace Labb6
         //values to change number of's.
         public bool isBarOpen = false;
         int numberofGlasses = 20;
-        int numberofChairs = 10;
 
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
@@ -102,10 +98,6 @@ namespace Labb6
         //Tasks of Bouncer, Bartender, Waiter and Patron.
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            aTimer = new System.Timers.Timer(); //Hur få denna att stanna?
-            aTimer.Interval = 120000;
-            aTimer.Enabled = true;
-                
             CreateGlasses();
            // CreateChairs();
 
@@ -131,9 +123,9 @@ namespace Labb6
 
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
 
-                Task.Run(() => bartender.PourBeer(printBartenderInfo));
+                Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));
 
-                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs, printNumberOfCleanGlasses, printNumberOfGuests));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
 
