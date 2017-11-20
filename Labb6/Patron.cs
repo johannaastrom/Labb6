@@ -46,6 +46,7 @@ namespace Labb6
                         int randomTimePosition = rTime.Next(10, 20) * 1000;
                         Thread.Sleep(randomTimePosition);
                         callback($"{p.Name} leaves the bar.");
+                     //   printNumberOfGuests("Number of guests: " + --numberOfGuests);
                         printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
                         DirtyGlassQueue.Add(new Glass());
                     }
