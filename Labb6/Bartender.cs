@@ -32,9 +32,18 @@ namespace Labb6
         {
             while (isBarOpen() || BartenderQueue.Count() > 0)
             {
+                try
+                {
                 callback($"Gets a glass from the shelf.");
                 Thread.Sleep(3000);
-                callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} "); //Denna kö kan bli 0 och då stannar programmet.
+                    callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} "); //Denna kö kan bli 0 och då stannar programmet.
+
+                }
+                catch (Exception e)
+                {
+
+                    callback("Waiting");
+                }
                 Thread.Sleep(3000);
 
                 if (BartenderQueue.TryTake(out Patron p))

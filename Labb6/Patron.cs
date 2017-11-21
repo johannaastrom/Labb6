@@ -54,7 +54,10 @@ namespace Labb6
                         DirtyGlassQueue.Add(new Glass());
                     }
                     else
+                    {
                         LooksForAvailableChairQueue.Add(p);
+                        callback($"{p.Name} looks for a chair");
+                    }
                 }
             }
             callback("The bar is now empty.");

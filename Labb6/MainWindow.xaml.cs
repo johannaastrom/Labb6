@@ -34,7 +34,7 @@ namespace Labb6
 
         //values to change number of's.
         public bool isBarOpen = false;
-        int numberofGlasses = 20;
+        int numberofGlasses = 20;//20
 
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
@@ -120,7 +120,7 @@ namespace Labb6
 
                 Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);
                 patron.isBarOpen = () => isBarOpen;
-
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));

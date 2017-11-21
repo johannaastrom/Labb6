@@ -21,6 +21,7 @@ namespace Labb6
 {
     public class Bouncer
     {
+        //int numberOfGuests = 0;
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
@@ -35,7 +36,7 @@ namespace Labb6
         public Bouncer() { }
 
         //Creates patrons by random time and name from list
-        public Patron CreatePatron() 
+        public Patron CreatePatron()
         {
             List<string> guestList = new List<string>();
             guestList.Add("KulmageKarl");
@@ -74,29 +75,55 @@ namespace Labb6
             string randomName = guestList[randomGuestPosition];
 
             var patron = new Patron();
+
             patron.Name = randomName;
 
             return patron;
         }
 
         //Creates a patron
-        public void Work(Action<string> callback, Action<string> printNumberOfGuests) 
+        public void Work(Action<string> callback, Action<string> printNumberOfGuests)
         {
             Random rTime = new Random();
             int numberOfGuests = 0;
-           
+
             while (isBarOpen())
             {
-                    Patron p = CreatePatron();
-                    callback($"{p.Name} gets into the bar.");
-                    BartenderQueue.Add(p); //Patron goes to the bar.
-                    int randomTimePosition = rTime.Next(3, 10) * 1000;
-                    Thread.Sleep(randomTimePosition);
+                Patron p = CreatePatron();
+                BartenderQueue.Add(p); //Patron goes to the bar.
+                callback($"{p.Name} gets into the bar.");
+                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+                int randomTimePosition = rTime.Next(3, 10) * 2000;
+                Thread.Sleep(randomTimePosition);
 
-                    printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+            }
+
+            if (isBarOpen())//Bussload/Couples night
+            {
+                Thread.Sleep(20000);
+                AddMorePatrons(callback, printNumberOfGuests);
             }
             if (!isBarOpen())
                 callback("The bouncer goes home.");
+
+
         }
+
+        public void AddMorePatrons(Action<string> callback, Action<string> printNumberOfGuests)
+        {
+            int NumbOfPatrons = 0;
+            int HowManyPatronsEntring = 15;
+            int numberOfGuests = 0;
+            while (NumbOfPatrons < HowManyPatronsEntring)
+            {
+                Patron p = CreatePatron();
+                BartenderQueue.Add(p); //Patron goes to the bar.
+                callback($"{p.Name} gets into the bar.");
+                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+                NumbOfPatrons++;
+                Thread.Sleep(13);
+            }
+        }
+
     }
 }
