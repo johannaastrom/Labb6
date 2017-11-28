@@ -22,6 +22,12 @@ namespace Labb6
     public class Bouncer
     {
         //int numberOfGuests = 0;
+        Manager guest = new Manager();
+        int x = 1;
+
+
+
+
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
@@ -82,27 +88,29 @@ namespace Labb6
         }
 
         //Creates a patron
-        public void Work(Action<string> callback, Action<string> printNumberOfGuests)
+        public void Work(Action<string> callback/*, Action<string> printNumberOfGuests*/)
         {
             Random rTime = new Random();
-            int numberOfGuests = 0;
+            //int numberOfGuests = 0;
+            // int moreGuests = guest.guestCounter += 1;
 
             while (isBarOpen())
             {
                 Patron p = CreatePatron();
                 BartenderQueue.Add(p); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
-                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
-                int randomTimePosition = rTime.Next(3, 10) * 2000;
+                //printNumberOfGuests("Number of guests: " + moreGuests/*++numberOfGuests*/);
+                guest.SetGuests(x);
+                int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);
 
             }
 
-            if (isBarOpen())//Bussload/Couples night
-            {
-                Thread.Sleep(20000);
-                AddMorePatrons(callback, printNumberOfGuests);
-            }
+            //if (isBarOpen())//Bussload/Couples night
+            //{
+            //    Thread.Sleep(20000);
+            //    AddMorePatrons(callback, printNumberOfGuests);
+            //}
             if (!isBarOpen())
                 callback("The bouncer goes home.");
 

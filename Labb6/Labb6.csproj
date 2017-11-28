@@ -57,6 +57,7 @@
     <Compile Include="Bouncer.cs" />
     <Compile Include="Chair.cs" />
     <Compile Include="Glass.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Patron.cs" />
     <Compile Include="Waiter.cs" />
     <Page Include="MainWindow.xaml">
@@ -98,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="guest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -31,6 +31,7 @@ namespace Labb6
         Bartender bartender = new Bartender();
         Waiter waiter = new Waiter();
         Patron patron = new Patron();
+        Manager manager = new Manager();
 
         //values to change number of's.
         public bool isBarOpen = false;
@@ -66,7 +67,7 @@ namespace Labb6
         }
 
         //Printing the labels of guests, clean glasses and empty chairs.
-        private void printNumberOfGuests(string text)
+        private void printNumberOfGuests(int text)
         {
             Dispatcher.Invoke(() => { NumberOfGuests.Content = text; });
         }
@@ -109,6 +110,7 @@ namespace Labb6
 
             if (isBarOpen)
             {
+                //Creating agents
                 Bouncer bouncer = new Bouncer(BartenderQueue);
                 bouncer.isBarOpen = () => isBarOpen;
 
@@ -120,14 +122,17 @@ namespace Labb6
 
                 Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);
                 patron.isBarOpen = () => isBarOpen;
- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Task.Run(() => bouncer.Work(printBouncerInfo, printNumberOfGuests));
+                //Running
+                Task.Run(() => bouncer.Work(printBouncerInfo /*, printNumberOfGuests*/));
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));
 
-                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs, printNumberOfCleanGlasses, printNumberOfGuests));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs, printNumberOfCleanGlasses /*, printNumberOfGuests*/));
 
                 Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+
+                //Task.Run(() => printNumberOfGuests(manager.GetGuests()));
+                printNumberOfGuests(manager.GetGuests());
 
                 if (!isBarOpen || BartenderQueue.Count == 0 || LooksForAvailableChairQueue.Count == 0)
                 {

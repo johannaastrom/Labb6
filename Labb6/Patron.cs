@@ -18,7 +18,11 @@ namespace Labb6
         private BlockingCollection<Glass> DirtyGlassQueue;
         public Func<bool> isBarOpen { get; set; }
 
-        int numberOfGuests;
+        //int numberOfGuests;
+        Manager guest = new Manager();
+        
+
+
         int numberOfGlasses;
         public Patron(string name) { }
 
@@ -32,11 +36,12 @@ namespace Labb6
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
-        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs, Action<string> printNumberOfCleanGlasses, Action<string> printNumberOfGuests)
+        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs, Action<string> printNumberOfCleanGlasses/*, Action<string> printNumberOfGuests*/)
         {
             Random rTime = new Random();
             int numberOfChairs = 20;
-            
+            //int guestLeaving = guest.guestCounter--;
+
             while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || BartenderQueue.Count() > 0)
             {
                 if (LooksForAvailableChairQueue.TryTake(out Patron p))
@@ -48,7 +53,8 @@ namespace Labb6
                         int randomTimePosition = rTime.Next(10, 20) * 1000;
                         Thread.Sleep(randomTimePosition);
                         callback($"{p.Name} leaves the bar.");
-                        printNumberOfGuests("Number of guests: " + --numberOfGuests);
+                        //printNumberOfGuests("Number of guests: " + guestLeaving/*--numberOfGuests*/);
+                        guest.SetGuests(-1);
                         printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
 
                         DirtyGlassQueue.Add(new Glass());
