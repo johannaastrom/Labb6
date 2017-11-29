@@ -19,7 +19,6 @@ using System.Collections.Concurrent;
 
 namespace Labb6
 {
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -35,7 +34,8 @@ namespace Labb6
 
         //values to change number of's.
         public bool isBarOpen = false;
-        int numberofGlasses = 20;//20
+        public int numberofGlasses = 20;
+        public int numberOfChairs = 20;
 
         //Queues
         BlockingCollection<Patron> BartenderQueue = new BlockingCollection<Patron>();
@@ -55,15 +55,23 @@ namespace Labb6
         }
         private void printPatronInfo(string patronInfo)
         {
-            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, patronInfo); });
+            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, patronInfo);
+                NumberOfEmptyChairs.Content = $"Empty chairs: {LooksForAvailableChairQueue.Count()} ";
+            });
         }
         private void printWaiterInfo(string waiterInfo)
         {
-            Dispatcher.Invoke(() => { WaiterListBox.Items.Insert(0, waiterInfo); });
+            Dispatcher.Invoke(() => {
+                WaiterListBox.Items.Insert(0, waiterInfo);
+                NumberOfGlasses.Content = $"Clean glasses: {CleanGlassQueue.Count()} ";
+                });
         }
         private void printBartenderInfo(string bartenderInfo)
         {
-            Dispatcher.Invoke(() => { BartenderListBox.Items.Insert(0, bartenderInfo); });
+            Dispatcher.Invoke(() => {
+                BartenderListBox.Items.Insert(0, bartenderInfo);
+                NumberOfGlasses.Content = $"Clean glasses: {CleanGlassQueue.Count()} ";
+            });
         }
 
         //Printing the labels of guests, clean glasses and empty chairs.
@@ -80,10 +88,10 @@ namespace Labb6
             Dispatcher.Invoke(() => { NumberOfEmptyChairs.Content = text; });
         }
 
-        ////Creating chairs and glasses queues.
+        //Creating chairs and glasses queues.
         //private void CreateChairs()
         //{
-        //    for (int i = 0; i < numberofChairs; i++)
+        //    for (int i = 0; i < numberOfChairs; i++)
         //    {
         //        LooksForAvailableChairQueue.Add(new Patron());
         //    }
@@ -100,7 +108,7 @@ namespace Labb6
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
-           // CreateChairs();
+            //CreateChairs();
 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;
@@ -127,12 +135,12 @@ namespace Labb6
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));
 
-                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs, printNumberOfCleanGlasses /*, printNumberOfGuests*/));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs/*, printNumberOfCleanGlasses, printNumberOfGuests*/));
 
-                Task.Run(() => waiter.Work(printWaiterInfo, printNumberOfCleanGlasses));
+                Task.Run(() => waiter.Work(printWaiterInfo/*, printNumberOfCleanGlasses*/));
 
                 //Task.Run(() => printNumberOfGuests(manager.GetGuests()));
-                printNumberOfGuests(manager.GetGuests());
+                // printNumberOfGuests(manager.GetGuests());
 
                 if (!isBarOpen || BartenderQueue.Count == 0 || LooksForAvailableChairQueue.Count == 0)
                 {

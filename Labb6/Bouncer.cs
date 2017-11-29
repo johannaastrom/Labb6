@@ -21,13 +21,6 @@ namespace Labb6
 {
     public class Bouncer
     {
-        //int numberOfGuests = 0;
-        Manager guest = new Manager();
-        int x = 1;
-
-
-
-
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
@@ -100,10 +93,9 @@ namespace Labb6
                 BartenderQueue.Add(p); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
                 //printNumberOfGuests("Number of guests: " + moreGuests/*++numberOfGuests*/);
-                guest.SetGuests(x);
+               // guest.SetGuests(x);
                 int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);
-
             }
 
             //if (isBarOpen())//Bussload/Couples night
@@ -113,8 +105,6 @@ namespace Labb6
             //}
             if (!isBarOpen())
                 callback("The bouncer goes home.");
-
-
         }
 
         public void AddMorePatrons(Action<string> callback, Action<string> printNumberOfGuests)
@@ -132,6 +122,5 @@ namespace Labb6
                 Thread.Sleep(13);
             }
         }
-
     }
 }

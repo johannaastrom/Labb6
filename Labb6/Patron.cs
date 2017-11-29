@@ -36,7 +36,7 @@ namespace Labb6
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
-        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs, Action<string> printNumberOfCleanGlasses/*, Action<string> printNumberOfGuests*/)
+        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs/*, Action<string> printNumberOfCleanGlasses, Action<string> printNumberOfGuests*/)
         {
             Random rTime = new Random();
             int numberOfChairs = 20;
@@ -54,7 +54,7 @@ namespace Labb6
                         Thread.Sleep(randomTimePosition);
                         callback($"{p.Name} leaves the bar.");
                         //printNumberOfGuests("Number of guests: " + guestLeaving/*--numberOfGuests*/);
-                        guest.SetGuests(-1);
+                       // guest.SetGuests(-1);
                         printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
 
                         DirtyGlassQueue.Add(new Glass());

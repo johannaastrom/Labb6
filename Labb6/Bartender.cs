@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Windows;
 
 namespace Labb6
 {
@@ -16,7 +17,8 @@ namespace Labb6
 
         public Func<bool> isBarOpen { get; set; }
 
-        int numberOfGlasses = 20;
+        //Global variable
+        int bNumberOfGlasses = Properties.Settings.Default.numberOfGlasses;
 
         public Bartender() { }
 
@@ -51,7 +53,7 @@ namespace Labb6
                     LooksForAvailableChairQueue.Add(p); //Patron looks for a chair. 
 
                     if (CleanGlassQueue.TryTake(out Glass g))
-                        printNumberOfCleanGlasses("Number of clean glasses: " + --numberOfGlasses);
+                        printNumberOfCleanGlasses("Number of clean glasses: " + --bNumberOfGlasses);
                 }
             }
 
