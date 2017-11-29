@@ -17,9 +17,6 @@ namespace Labb6
 
         public Func<bool> isBarOpen { get; set; }
 
-        //Global variable
-        int bNumberOfGlasses = Properties.Settings.Default.numberOfGlasses;
-
         public Bartender() { }
 
         public Bartender(BlockingCollection<Patron> bartenderQueue, BlockingCollection<Glass> CleanGlassQueue, BlockingCollection<Patron> AvailableChairQueue)
@@ -37,23 +34,24 @@ namespace Labb6
                 try
                 {
                 callback($"Gets a glass from the shelf.");
+                    CleanGlassQueue.TryTake(out Glass g);
                 Thread.Sleep(3000);
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} "); //Denna kö kan bli 0 och då stannar programmet.
-
+                    LooksForAvailableChairQueue.TryAdd(new Patron());
                 }
                 catch (Exception e)
                 {
-
                     callback("Waiting");
                 }
                 Thread.Sleep(3000);
 
                 if (BartenderQueue.TryTake(out Patron p))
                 {
-                    LooksForAvailableChairQueue.Add(p); //Patron looks for a chair. 
+                    LooksForAvailableChairQueue.Take(); //Patron looks for a chair. 
 
                     if (CleanGlassQueue.TryTake(out Glass g))
-                        printNumberOfCleanGlasses("Number of clean glasses: " + --bNumberOfGlasses);
+                        CleanGlassQueue.TryTake(out Glass glass);
+                       // printNumberOfCleanGlasses("Number of clean glasses: " + --bNumberOfGlasses);
                 }
             }
 

@@ -48,7 +48,7 @@ namespace Labb6
             InitializeComponent();
         }
 
-        //Prints info in listboxes of Patron, Waiter and Bartender.
+        //Prints info in listboxes of Patron, Waiter and Bartender + updates labels.
         private void printBouncerInfo(string bouncerInfo)
         {
             Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, bouncerInfo); });
@@ -89,13 +89,13 @@ namespace Labb6
         }
 
         //Creating chairs and glasses queues.
-        //private void CreateChairs()
-        //{
-        //    for (int i = 0; i < numberOfChairs; i++)
-        //    {
-        //        LooksForAvailableChairQueue.Add(new Patron());
-        //    }
-        //}
+        private void CreateChairs()
+        {
+            for (int i = 0; i < numberOfChairs; i++)
+            {
+                LooksForAvailableChairQueue.Add(new Patron());
+            }
+        }
         private void CreateGlasses()
         {
             for (int i = 0; i < numberofGlasses; i++)
@@ -108,7 +108,7 @@ namespace Labb6
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             CreateGlasses();
-            //CreateChairs();
+            CreateChairs();
 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;
@@ -135,7 +135,7 @@ namespace Labb6
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));
 
-                Task.Run(() => patron.PatronFoundChair(printPatronInfo, printNumberOfEmptyChairs/*, printNumberOfCleanGlasses, printNumberOfGuests*/));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo/*, printNumberOfEmptyChairs, printNumberOfCleanGlasses, printNumberOfGuests*/));
 
                 Task.Run(() => waiter.Work(printWaiterInfo/*, printNumberOfCleanGlasses*/));
 

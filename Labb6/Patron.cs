@@ -19,11 +19,8 @@ namespace Labb6
         public Func<bool> isBarOpen { get; set; }
 
         //int numberOfGuests;
-        Manager guest = new Manager();
-        
+        //Manager guest = new Manager();
 
-
-        int numberOfGlasses;
         public Patron(string name) { }
 
         public Patron() { }
@@ -36,11 +33,10 @@ namespace Labb6
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
-        public void PatronFoundChair(Action<string> callback, Action<string> printNumberOfEmptyChairs/*, Action<string> printNumberOfCleanGlasses, Action<string> printNumberOfGuests*/)
+        public void PatronFoundChair(Action<string> callback/*, Action<string> printNumberOfEmptyChairs, Action<string> printNumberOfCleanGlasses, Action<string> printNumberOfGuests*/)
         {
             Random rTime = new Random();
             int numberOfChairs = 20;
-            //int guestLeaving = guest.guestCounter--;
 
             while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || BartenderQueue.Count() > 0)
             {
@@ -49,13 +45,16 @@ namespace Labb6
                     if (numberOfChairs > 0)
                     {
                         callback($"{p.Name} sits down on a chair and drinks the beer.");
-                        printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
+                      //  printNumberOfEmptyChairs("Number of empty chairs: " + --numberOfChairs);
+                        LooksForAvailableChairQueue.TryTake(out Patron pat);
                         int randomTimePosition = rTime.Next(10, 20) * 1000;
                         Thread.Sleep(randomTimePosition);
                         callback($"{p.Name} leaves the bar.");
+                        BartenderQueue.TryTake(out Patron patron);
                         //printNumberOfGuests("Number of guests: " + guestLeaving/*--numberOfGuests*/);
-                       // guest.SetGuests(-1);
-                        printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
+                        // guest.SetGuests(-1);
+                        // printNumberOfEmptyChairs("Number of empty chairs: " + ++numberOfChairs);
+                        LooksForAvailableChairQueue.Add(new Patron());
 
                         DirtyGlassQueue.Add(new Glass());
                     }

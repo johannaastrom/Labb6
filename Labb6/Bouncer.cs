@@ -107,7 +107,7 @@ namespace Labb6
                 callback("The bouncer goes home.");
         }
 
-        public void AddMorePatrons(Action<string> callback, Action<string> printNumberOfGuests)
+        public void AddMorePatrons(Action<string> callback/*, Action<string> printNumberOfGuests*/)
         {
             int NumbOfPatrons = 0;
             int HowManyPatronsEntring = 15;
@@ -117,7 +117,7 @@ namespace Labb6
                 Patron p = CreatePatron();
                 BartenderQueue.Add(p); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
-                printNumberOfGuests("Number of guests: " + ++numberOfGuests);
+                //printNumberOfGuests("Number of guests: " + ++numberOfGuests);
                 NumbOfPatrons++;
                 Thread.Sleep(13);
             }

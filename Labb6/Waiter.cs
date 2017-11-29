@@ -49,18 +49,20 @@ namespace Labb6
             {
                 if (DirtyGlassQueue.TryTake(out Glass g))
                 {
-                    if (DirtyGlassQueue == null) ///här bör villkor finnas för att kolla om det finns glas i dirtyglasswueue
-                   // printNumberOfCleanGlasses("Number of clean glasses: " + --wNumberOfGlasses);
-                    Callback("Picks up a dirty glass and washes it");
-                    Thread.Sleep(10000);
-                    Callback("Places the clean glass back on the shelf.");
-                    CleanGlassQueue.Add(new Glass());
-                   // printNumberOfCleanGlasses("Number of clean glasses: " + ++wNumberOfGlasses);
-                    Thread.Sleep(15000);
-                    for (int i = 0; i < DirtyGlassQueue.Count(); i++)
+                    if (DirtyGlassQueue != null)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglasswueue och ta alla
                     {
-                        DirtyGlassQueue.TryTake(out Glass gl);
-                        CleanGlassQueue.TryAdd(new Glass());
+                        // printNumberOfCleanGlasses("Number of clean glasses: " + --wNumberOfGlasses);
+                        Callback("Picks up a dirty glass and washes it");
+                        Thread.Sleep(10000);
+                        Callback("Places the clean glass back on the shelf.");
+                        CleanGlassQueue.Add(new Glass());
+                        // printNumberOfCleanGlasses("Number of clean glasses: " + ++wNumberOfGlasses);
+                        Thread.Sleep(15000);
+                        for (int i = 0; i < DirtyGlassQueue.Count(); i++)
+                        {
+                            DirtyGlassQueue.TryTake(out Glass gl);
+                            CleanGlassQueue.TryAdd(new Glass());
+                        }
                     }
                 }
             }
