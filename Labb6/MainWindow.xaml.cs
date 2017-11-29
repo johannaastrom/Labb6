@@ -51,7 +51,9 @@ namespace Labb6
         //Prints info in listboxes of Patron, Waiter and Bartender + updates labels.
         private void printBouncerInfo(string bouncerInfo)
         {
-            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, bouncerInfo); });
+            Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, bouncerInfo);
+                NumberOfGuests.Content = $"Guests: {BartenderQueue.Count()} ";
+            });
         }
         private void printPatronInfo(string patronInfo)
         {

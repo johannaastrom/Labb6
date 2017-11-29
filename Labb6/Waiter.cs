@@ -21,9 +21,6 @@ namespace Labb6
         private BlockingCollection<Patron> BartenderQueue;
 
         public Func<bool> isBarOpen { get; set; }
-        
-        //Global variable
-        int wNumberOfGlasses = Properties.Settings.Default.numberOfGlasses;
 
         //Three constructors
         public Waiter(BlockingCollection<Glass> DirtyGlassQueue)
@@ -41,22 +38,18 @@ namespace Labb6
 
         public Waiter() { }
 
-        public void Work(Action<string> Callback/*, Action<string> printNumberOfCleanGlasses*/)
+        public void Work(Action<string> Callback)
         {
-            //int numberOfGlasses = 20;
-
             while (isBarOpen() || BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0 || LooksForAvailableChairQueue.Count() > 0)
             {
                 if (DirtyGlassQueue.TryTake(out Glass g))
                 {
-                    if (DirtyGlassQueue != null)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglasswueue och ta alla
+                    if (DirtyGlassQueue != null)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglassqueue och ta alla
                     {
-                        // printNumberOfCleanGlasses("Number of clean glasses: " + --wNumberOfGlasses);
-                        Callback("Picks up a dirty glass and washes it");
+                        Callback("Picks up all dirty glasses and washes it");
                         Thread.Sleep(10000);
-                        Callback("Places the clean glass back on the shelf.");
+                        Callback("Places the clean glasses back on the shelf.");
                         CleanGlassQueue.Add(new Glass());
-                        // printNumberOfCleanGlasses("Number of clean glasses: " + ++wNumberOfGlasses);
                         Thread.Sleep(15000);
                         for (int i = 0; i < DirtyGlassQueue.Count(); i++)
                         {
@@ -71,12 +64,10 @@ namespace Labb6
             {
                 if (DirtyGlassQueue.TryTake(out Glass g))
                 {
-                   // printNumberOfCleanGlasses("Number of clean glasses: " + --wNumberOfGlasses);
                     Callback("Picks up a dirty glass and washes it");
                     Thread.Sleep(10000);
                     Callback("Places the clean glass back on the shelf.");
                     CleanGlassQueue.Add(new Glass());
-                   // printNumberOfCleanGlasses("Number of clean glasses: " + ++wNumberOfGlasses);
                     Thread.Sleep(15000);
                 }
             }

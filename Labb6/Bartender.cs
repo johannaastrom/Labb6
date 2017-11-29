@@ -51,7 +51,6 @@ namespace Labb6
 
                     if (CleanGlassQueue.TryTake(out Glass g))
                         CleanGlassQueue.TryTake(out Glass glass);
-                       // printNumberOfCleanGlasses("Number of clean glasses: " + --bNumberOfGlasses);
                 }
             }
 

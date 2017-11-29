@@ -17,9 +17,9 @@
         <Label x:Name="BartenderLabel" Content="Bartender actions" HorizontalAlignment="Left" Margin="41,86,0,0" VerticalAlignment="Top" Width="170"/>
         <Label x:Name="WaiterLabel" Content="Waiter actions" HorizontalAlignment="Left" Margin="373,86,0,0" VerticalAlignment="Top" Width="170" Grid.ColumnSpan="2"/>
         <Label x:Name="BouncerLabel" Content="Patron actions" HorizontalAlignment="Left" Margin="304.8,86,0,0" VerticalAlignment="Top" Width="170" Grid.Column="1"/>
-        <Label x:Name="NumberOfGuests" Content="Number of guests" HorizontalAlignment="Left" Margin="360.8,462,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
-        <Label x:Name="NumberOfGlasses" Content="Number of clean glasses" HorizontalAlignment="Left" Margin="9.8,462,0,0" VerticalAlignment="Top" Width="198" Grid.Column="1"/>
-        <Label x:Name="NumberOfEmptyChairs" Content="Number of empty chairs" HorizontalAlignment="Left" Margin="360.8,488,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
+        <Label x:Name="NumberOfGuests" Content="Guests" HorizontalAlignment="Left" Margin="360.8,462,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
+        <Label x:Name="NumberOfGlasses" Content="Clean glasses" HorizontalAlignment="Left" Margin="9.8,462,0,0" VerticalAlignment="Top" Width="198" Grid.Column="1"/>
+        <Label x:Name="NumberOfEmptyChairs" Content="Empty Chairs" HorizontalAlignment="Left" Margin="360.8,488,-56.6,0" VerticalAlignment="Top" Width="339" Grid.Column="1"/>
         <Button x:Name="BartenderPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="98,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD"/>
         <Button x:Name="WaiterPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="9.8,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD" Grid.Column="1"/>
         <Button x:Name="BouncerPauseButton" Content="Pause/Continue" HorizontalAlignment="Left" Margin="360.8,420,0,0" VerticalAlignment="Top" Width="170" Background="#FFDDDDDD" Grid.Column="1"/>

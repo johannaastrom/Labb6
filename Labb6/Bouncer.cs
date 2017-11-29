@@ -81,19 +81,15 @@ namespace Labb6
         }
 
         //Creates a patron
-        public void Work(Action<string> callback/*, Action<string> printNumberOfGuests*/)
+        public void Work(Action<string> callback)
         {
             Random rTime = new Random();
-            //int numberOfGuests = 0;
-            // int moreGuests = guest.guestCounter += 1;
 
             while (isBarOpen())
             {
                 Patron p = CreatePatron();
                 BartenderQueue.Add(p); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
-                //printNumberOfGuests("Number of guests: " + moreGuests/*++numberOfGuests*/);
-               // guest.SetGuests(x);
                 int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);
             }
