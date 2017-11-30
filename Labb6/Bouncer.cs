@@ -103,7 +103,7 @@ namespace Labb6
                 callback("The bouncer goes home.");
         }
 
-        public void AddMorePatrons(Action<string> callback/*, Action<string> printNumberOfGuests*/)
+        public void AddMorePatrons(Action<string> callback)
         {
             int NumbOfPatrons = 0;
             int HowManyPatronsEntring = 15;
