@@ -88,7 +88,7 @@ namespace Labb6
             while (isBarOpen())
             {
                 Patron p = CreatePatron();
-                BartenderQueue.Add(p); //Patron goes to the bar.
+                BartenderQueue.Add(new Patron()); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
                 int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);

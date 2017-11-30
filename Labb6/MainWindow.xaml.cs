@@ -133,16 +133,13 @@ namespace Labb6
                 Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);
                 patron.isBarOpen = () => isBarOpen;
                 //Running
-                Task.Run(() => bouncer.Work(printBouncerInfo /*, printNumberOfGuests*/));
+                Task.Run(() => bouncer.Work(printBouncerInfo));
 
                 Task.Run(() => bartender.PourBeer(printBartenderInfo, printNumberOfCleanGlasses));
 
-                Task.Run(() => patron.PatronFoundChair(printPatronInfo/*, printNumberOfEmptyChairs, printNumberOfCleanGlasses, printNumberOfGuests*/));
+                Task.Run(() => patron.PatronFoundChair(printPatronInfo));
 
-                Task.Run(() => waiter.Work(printWaiterInfo/*, printNumberOfCleanGlasses*/));
-
-                //Task.Run(() => printNumberOfGuests(manager.GetGuests()));
-                // printNumberOfGuests(manager.GetGuests());
+                Task.Run(() => waiter.Work(printWaiterInfo));
 
                 if (!isBarOpen || BartenderQueue.Count == 0 || LooksForAvailableChairQueue.Count == 0)
                 {
