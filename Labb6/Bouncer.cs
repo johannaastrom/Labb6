@@ -24,12 +24,14 @@ namespace Labb6
         CancellationTokenSource cts = new CancellationTokenSource();
 
         private BlockingCollection<Patron> BartenderQueue;
+        private BlockingCollection<Patron> PubCount;
 
         public Func<bool> isBarOpen { get; set; }
 
-        public Bouncer(BlockingCollection<Patron> barqueue)
+        public Bouncer(BlockingCollection<Patron> bartenderqueue, BlockingCollection<Patron> PubCount)
         {
-            this.BartenderQueue = barqueue;
+            this.BartenderQueue = bartenderqueue;
+            this.PubCount = PubCount;
         }
 
         public Bouncer() { }
@@ -88,6 +90,7 @@ namespace Labb6
             while (isBarOpen())
             {
                 Patron p = CreatePatron();
+                PubCount.Add(new Patron());//Patron enters the pub
                 BartenderQueue.Add(new Patron()); //Patron goes to the bar.
                 callback($"{p.Name} gets into the bar.");
                 int randomTimePosition = rTime.Next(3, 10) * 1000;

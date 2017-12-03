@@ -33,11 +33,12 @@ namespace Labb6
             {
                 try
                 {
-                callback($"Gets a glass from the shelf.");
                     CleanGlassQueue.TryTake(out Glass g);
+                callback($"Gets a glass from the shelf.");
                 Thread.Sleep(3000);
                     callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} "); //Denna kö kan bli 0 och då stannar programmet.
-                    LooksForAvailableChairQueue.TryAdd(new Patron());
+                    BartenderQueue.TryTake(out Patron patron);//Patron går från baren
+                    LooksForAvailableChairQueue.TryAdd(new Patron());//Patron letar efter ledig stol
                 }
                 catch (Exception e)
                 {

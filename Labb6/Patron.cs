@@ -13,19 +13,18 @@ namespace Labb6
         public string Name { get; set; }
 
         private BlockingCollection<Patron> LooksForAvailableChairQueue;
-        private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Glass> DirtyGlassQueue;
+        private BlockingCollection<Patron> PubCount;
         public Func<bool> isBarOpen { get; set; }
 
         public Patron(string name) { }
 
         public Patron() { }
 
-        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue, BlockingCollection<Patron> BartenderQueue)
+        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue,BlockingCollection<Patron> PubCount)
         {
             this.LooksForAvailableChairQueue = AvailableChairQueue;
             this.DirtyGlassQueue = dirtyGlassQueue;
-            this.BartenderQueue = BartenderQueue;
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
@@ -34,7 +33,7 @@ namespace Labb6
             Random rTime = new Random();
             int numberOfChairs = 20;
 
-            while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || BartenderQueue.Count() > 0)
+            while (isBarOpen() || LooksForAvailableChairQueue.Count() > 0 || PubCount.Count() > 0)
             {
                 if (LooksForAvailableChairQueue.TryTake(out Patron p))
                 {
@@ -45,7 +44,8 @@ namespace Labb6
                         int randomTimePosition = rTime.Next(10, 20) * 1000;
                         Thread.Sleep(randomTimePosition);
                         callback($"{p.Name} leaves the bar.");
-                        BartenderQueue.TryTake(out Patron patron);
+                        PubCount.TryTake(out Patron patron);
+                        //BartenderQueue.TryTake(out Patron patron);
                         LooksForAvailableChairQueue.Add(new Patron());
                         DirtyGlassQueue.Add(new Glass());
                     }

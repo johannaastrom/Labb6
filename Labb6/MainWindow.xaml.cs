@@ -30,7 +30,7 @@ namespace Labb6
         Bartender bartender = new Bartender();
         Waiter waiter = new Waiter();
         Patron patron = new Patron();
-        Manager manager = new Manager();
+        //Manager manager = new Manager();
 
         //values to change number of's.
         public bool isBarOpen = false;
@@ -43,6 +43,8 @@ namespace Labb6
         BlockingCollection<Patron> LooksForAvailableChairQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
 
+        BlockingCollection<Patron> PubCount = new BlockingCollection<Patron>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,7 +54,7 @@ namespace Labb6
         private void printBouncerInfo(string bouncerInfo)
         {
             Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, bouncerInfo);
-                NumberOfGuests.Content = $"Guests: {BartenderQueue.Count()} ";
+                NumberOfGuests.Content = $"Guests: {PubCount.Count()} ";
             });
         }
         private void printPatronInfo(string patronInfo)
@@ -121,7 +123,7 @@ namespace Labb6
             if (isBarOpen)
             {
                 //Creating agents
-                Bouncer bouncer = new Bouncer(BartenderQueue);
+                Bouncer bouncer = new Bouncer(BartenderQueue,PubCount);
                 bouncer.isBarOpen = () => isBarOpen;
 
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, LooksForAvailableChairQueue);
@@ -130,7 +132,7 @@ namespace Labb6
                 Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue, LooksForAvailableChairQueue);
                 waiter.isBarOpen = () => isBarOpen;
 
-                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue, BartenderQueue);
+                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue,PubCount);
                 patron.isBarOpen = () => isBarOpen;
                 //Running
                 Task.Run(() => bouncer.Work(printBouncerInfo));
