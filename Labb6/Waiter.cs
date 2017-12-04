@@ -40,7 +40,7 @@ namespace Labb6
             {
                 if (DirtyGlassQueue.TryTake(out Glass g))
                 {
-                    if (DirtyGlassQueue != null)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglassqueue och ta alla
+                    if (DirtyGlassQueue.Count > 5)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglassqueue och ta alla
                     {
                         Callback("Picks up all dirty glasses and washes it");
                         Thread.Sleep(10000);

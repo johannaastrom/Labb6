@@ -21,10 +21,12 @@ namespace Labb6
 
         public Patron() { }
 
-        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue,BlockingCollection<Patron> PubCount)
+        public Patron(BlockingCollection<Patron> AvailableChairQueue, BlockingCollection<Glass> dirtyGlassQueue,
+            BlockingCollection<Patron> PubCount)
         {
             this.LooksForAvailableChairQueue = AvailableChairQueue;
             this.DirtyGlassQueue = dirtyGlassQueue;
+            this.PubCount = PubCount;
         }
 
         //The patron gets in the queue for the free chairs, sits down and then leaves the bar. A new Glass is then added to DirtyGlassQueue.
