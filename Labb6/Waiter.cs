@@ -15,6 +15,7 @@ namespace Labb6
         private BlockingCollection<Glass> CleanGlassQueue;
         private BlockingCollection<Patron> LooksForAvailableChairQueue;
         private BlockingCollection<Patron> BartenderQueue;
+        private BlockingCollection<Patron> PubCount;
 
         public Func<bool> isBarOpen { get; set; }
 
@@ -24,36 +25,37 @@ namespace Labb6
             this.DirtyGlassQueue = DirtyGlassQueue;
         }
 
-        public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue, BlockingCollection<Patron> BartenderQueue, BlockingCollection<Patron> LooksForAvailableChairQueue)
+        public Waiter(BlockingCollection<Glass> DirtyGlassQueue, BlockingCollection<Glass> CleanGlassQueue, BlockingCollection<Patron> BartenderQueue, BlockingCollection<Patron> LooksForAvailableChairQueue, BlockingCollection<Patron> PubCount)
         {
             this.DirtyGlassQueue = DirtyGlassQueue;
             this.CleanGlassQueue = CleanGlassQueue;
             this.BartenderQueue = BartenderQueue;
             this.LooksForAvailableChairQueue = LooksForAvailableChairQueue;
+            this.PubCount = PubCount;
         }
 
         public Waiter() { }
 
         public void Work(Action<string> Callback)
         {
-            while (isBarOpen() || BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0 || LooksForAvailableChairQueue.Count() > 0)
+            while (isBarOpen() || PubCount.Count > 0 /*BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0 || LooksForAvailableChairQueue.Count() > 0*/)
             {
-                if (DirtyGlassQueue.TryTake(out Glass g))
+                //if (DirtyGlassQueue.TryTake(out Glass g))
+                //{
+                if (DirtyGlassQueue.Count > 0)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglassqueue och ta alla
                 {
-                    if (DirtyGlassQueue.Count > 5)   ///här bör villkor finnas för att kolla om det finns glas i dirtyglassqueue och ta alla
+                    Callback("Picks up all dirty glasses and washes it");
+                    Thread.Sleep(10000);
+                    Callback("Places the clean glasses back on the shelf.");
+                    CleanGlassQueue.Add(new Glass());
+                    Thread.Sleep(15000);
+                    foreach (var dirtyglass in DirtyGlassQueue)
                     {
-                        Callback("Picks up all dirty glasses and washes it");
-                        Thread.Sleep(10000);
-                        Callback("Places the clean glasses back on the shelf.");
-                        CleanGlassQueue.Add(new Glass());
-                        Thread.Sleep(15000);
-                        for (int i = 0; i < DirtyGlassQueue.Count(); i++)
-                        {
-                            DirtyGlassQueue.TryTake(out Glass gl);
-                            CleanGlassQueue.TryAdd(new Glass());
-                        }
+                        DirtyGlassQueue.TryTake(out Glass gl);
+                        CleanGlassQueue.TryAdd(new Glass());
                     }
                 }
+                //}
             }
             Thread.Sleep(10000); //Annars går det för fort för honom!
             if (isBarOpen() || BartenderQueue.Count() > 0 || DirtyGlassQueue.Count() > 0 || LooksForAvailableChairQueue.Count() > 0)

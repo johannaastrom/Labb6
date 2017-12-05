@@ -33,12 +33,20 @@ namespace Labb6
             {
                 try
                 {
+                    Thread.Sleep(3000);
+                    //callback($"Gets a glass from the shelf.");
+                    callback($"Gets two glasses from the shelf.");//Couples night
                     CleanGlassQueue.TryTake(out Glass g);
-                callback($"Gets a glass from the shelf.");
-                Thread.Sleep(3000);
-                    callback($"Pours a beer to {((Patron)BartenderQueue.First()).Name} "); //Denna kö kan bli 0 och då stannar programmet.
-                    BartenderQueue.TryTake(out Patron patron);//Patron går från baren
-                    LooksForAvailableChairQueue.TryAdd(new Patron());//Patron letar efter ledig stol
+                    CleanGlassQueue.TryTake(out Glass g2);//Couples night
+                    Thread.Sleep(3000);
+                    //BartenderQueue.TryTake(out Patron patron);//Patron går från baren
+                    //callback($"Pours a beer to {patron.Name}");
+                    //LooksForAvailableChairQueue.Add(patron);//Patron letar efter ledig stol
+                    BartenderQueue.TryTake(out Patron patron);//Couples night ↓
+                    BartenderQueue.TryTake(out Patron patron2);
+                    callback($"Pours a beer to {patron.Name} and {patron2.Name}");
+                    LooksForAvailableChairQueue.Add(patron);
+                    LooksForAvailableChairQueue.Add(patron2);
                 }
                 catch (Exception e)
                 {
@@ -46,13 +54,13 @@ namespace Labb6
                 }
                 Thread.Sleep(3000);
 
-                if (BartenderQueue.TryTake(out Patron p))
-                {
-                    LooksForAvailableChairQueue.Take(); //Patron looks for a chair. 
+                //if (BartenderQueue.TryTake(out Patron p))
+                //{
+                //    LooksForAvailableChairQueue.Take(); //Patron looks for a chair. 
 
-                    if (CleanGlassQueue.TryTake(out Glass g))
-                        CleanGlassQueue.TryTake(out Glass glass);
-                }
+                //    if (CleanGlassQueue.TryTake(out Glass g))
+                //        CleanGlassQueue.TryTake(out Glass glass);
+                //}
             }
 
             if (!isBarOpen())

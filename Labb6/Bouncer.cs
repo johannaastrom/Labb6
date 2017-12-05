@@ -15,18 +15,21 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
-
+using System.Diagnostics;
 
 namespace Labb6
 {
     public class Bouncer
     {
         CancellationTokenSource cts = new CancellationTokenSource();
+        Stopwatch TimeGone = new Stopwatch();
+
 
         private BlockingCollection<Patron> BartenderQueue;
         private BlockingCollection<Patron> PubCount;
 
         public Func<bool> isBarOpen { get; set; }
+        public bool sec = false;
 
         public Bouncer(BlockingCollection<Patron> bartenderqueue, BlockingCollection<Patron> PubCount)
         {
@@ -85,41 +88,59 @@ namespace Labb6
         //Creates a patron
         public void Work(Action<string> callback)
         {
+            sec = true;
             Random rTime = new Random();
+            TimeGone.Start();
+            TimeSpan ts = TimeGone.Elapsed;
+            int HowManyPatronsEntring = 15;
 
             while (isBarOpen())
             {
-                Patron p = CreatePatron();
-                PubCount.Add(new Patron());//Patron enters the pub
-                BartenderQueue.Add(new Patron()); //Patron goes to the bar.
-                callback($"{p.Name} gets into the bar.");
+                for (int i = 0; i < 2; i++)//Couples night
+                {
+                    Patron p = CreatePatron();
+                    PubCount.Add(p);//Patron enters the pub
+                    BartenderQueue.Add(p); //Patron goes to the bar.
+                    callback($"{p.Name} gets into the bar.");
+                    Thread.Sleep(13);
+                }
                 int randomTimePosition = rTime.Next(3, 10) * 1000;
                 Thread.Sleep(randomTimePosition);
+                //AddMorePatrons(callback);
+
+                //if (TimeGone.ElapsedMilliseconds == 20000)//Bussload/Couples night
+                if (sec == true)
+                {
+                    //AddMorePatrons(callback);
+                    Thread.Sleep(10000);
+                    for (int i = 0; i <= HowManyPatronsEntring; i++)
+                    {
+                        Patron p = CreatePatron();
+                        PubCount.Add(p);
+                        callback($"{p.Name} gets into the bar.");
+                        BartenderQueue.Add(p); //Patron goes to the bar.
+                        Thread.Sleep(13);
+                    }
+                    sec = false;
+                }
             }
 
-            //if (isBarOpen())//Bussload/Couples night
-            //{
-            //    Thread.Sleep(20000);
-            //    AddMorePatrons(callback, printNumberOfGuests);
-            //}
             if (!isBarOpen())
                 callback("The bouncer goes home.");
         }
 
-        public void AddMorePatrons(Action<string> callback)
+        public void AddMorePatrons(Action<string> callback)//bussload
         {
-            int NumbOfPatrons = 0;
             int HowManyPatronsEntring = 15;
-            int numberOfGuests = 0;
-            while (NumbOfPatrons < HowManyPatronsEntring)
+            for (int i = 0; i <= HowManyPatronsEntring; i++)
             {
                 Patron p = CreatePatron();
-                BartenderQueue.Add(p); //Patron goes to the bar.
+                PubCount.Add(p);
                 callback($"{p.Name} gets into the bar.");
-                //printNumberOfGuests("Number of guests: " + ++numberOfGuests);
-                NumbOfPatrons++;
+                BartenderQueue.Add(p); //Patron goes to the bar.
                 Thread.Sleep(13);
             }
+
         }
     }
 }

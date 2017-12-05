@@ -42,6 +42,7 @@ namespace Labb6
         BlockingCollection<Glass> CleanGlassQueue = new BlockingCollection<Glass>();
         BlockingCollection<Patron> LooksForAvailableChairQueue = new BlockingCollection<Patron>();
         BlockingCollection<Glass> DirtyGlassQueue = new BlockingCollection<Glass>();
+        BlockingCollection<Chair> FreeChairs = new BlockingCollection<Chair>();
 
         BlockingCollection<Patron> PubCount = new BlockingCollection<Patron>();
 
@@ -60,7 +61,7 @@ namespace Labb6
         private void printPatronInfo(string patronInfo)
         {
             Dispatcher.Invoke(() => { BouncerListBox.Items.Insert(0, patronInfo);
-                NumberOfEmptyChairs.Content = $"Empty chairs: {LooksForAvailableChairQueue.Count()} ";
+                NumberOfEmptyChairs.Content = $"Empty chairs: {FreeChairs.Count()} ";
             });
         }
         private void printWaiterInfo(string waiterInfo)
@@ -97,7 +98,7 @@ namespace Labb6
         {
             for (int i = 0; i < numberOfChairs; i++)
             {
-                LooksForAvailableChairQueue.Add(new Patron());
+                FreeChairs.Add(new Chair());
             }
         }
         private void CreateGlasses()
@@ -114,6 +115,7 @@ namespace Labb6
             CreateGlasses();
             CreateChairs();
 
+ 
             if (cts.IsCancellationRequested) { cts = new CancellationTokenSource(); }
             CancellationToken ct = cts.Token;
 
@@ -129,10 +131,10 @@ namespace Labb6
                 Bartender bartender = new Bartender(BartenderQueue, CleanGlassQueue, LooksForAvailableChairQueue);
                 bartender.isBarOpen = () => isBarOpen;
 
-                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue, LooksForAvailableChairQueue);
+                Waiter waiter = new Waiter(DirtyGlassQueue, CleanGlassQueue, BartenderQueue, LooksForAvailableChairQueue, PubCount);
                 waiter.isBarOpen = () => isBarOpen;
 
-                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue,PubCount);
+                Patron patron = new Patron(LooksForAvailableChairQueue, DirtyGlassQueue,PubCount, FreeChairs);
                 patron.isBarOpen = () => isBarOpen;
                 //Running
                 Task.Run(() => bouncer.Work(printBouncerInfo));
